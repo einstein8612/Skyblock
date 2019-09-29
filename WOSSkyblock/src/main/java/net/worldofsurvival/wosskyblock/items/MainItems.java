@@ -12,6 +12,13 @@ import net.md_5.bungee.api.ChatColor;
 
 public final class MainItems {
 	
+	private ArrayList<String> clickToUse(){
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add("");
+		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to use me"));
+		return lore;
+	}
+	
 	public ItemStack blackPane() {
 		ItemStack itemstack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -33,6 +40,15 @@ public final class MainItems {
 		ItemStack itemstack = new ItemStack(Material.RED_BED);
 		ItemMeta meta = itemstack.getItemMeta();
 		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&e&lHome"));
+		itemstack.setItemMeta(meta);
+		return itemstack;
+	}
+	
+	public ItemStack menu() {
+		ItemStack itemstack = new ItemStack(Material.EMERALD);
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName("&5&lSkyblock Menu");
+		meta.setLore(this.clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
