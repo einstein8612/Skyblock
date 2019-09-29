@@ -34,6 +34,7 @@ public final class WOSSkyblock extends JavaPlugin {
 				new InventoryClickListener(common),
 				new PlayerInteractListener(common, mainSelectorMenu, mainItems),
 				new PlayerDropListener(common, mainItems)
+				//TODO: Add listener for join to give players the menu item on firs join
 				);
 	}
 

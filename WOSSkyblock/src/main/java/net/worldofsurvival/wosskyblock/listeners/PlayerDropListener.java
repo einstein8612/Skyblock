@@ -24,5 +24,4 @@ public class PlayerDropListener implements Listener {
 			common.tell(event.getPlayer(), "&cYou can't drop the menu item!");
 		}
 	}
-	
 }
