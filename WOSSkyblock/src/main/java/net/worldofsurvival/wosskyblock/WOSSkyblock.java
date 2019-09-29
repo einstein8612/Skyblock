@@ -16,7 +16,7 @@ import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 
 public final class WOSSkyblock extends JavaPlugin {
-
+	//Edit something and send me a screenie of your GitHub desktop
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
