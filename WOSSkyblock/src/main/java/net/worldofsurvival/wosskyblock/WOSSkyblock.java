@@ -12,6 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.worldofsurvival.wosskyblock.commands.IslandCommand;
 import net.worldofsurvival.wosskyblock.items.MainItems;
 import net.worldofsurvival.wosskyblock.listeners.InventoryClickListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 
@@ -29,13 +31,11 @@ public final class WOSSkyblock extends JavaPlugin {
 				);
 
 		this.registerEvents(this, 
-				new InventoryClickListener(common)
-
+				new InventoryClickListener(common),
+				new PlayerInteractListener(common, mainSelectorMenu, mainItems),
+				new PlayerDropListener(common, mainItems)
 				);
-		Command command;
-
 	}
-
 
 	//Registering events.
 	private void registerEvents(WOSSkyblock plugin, Listener... listeners) {
