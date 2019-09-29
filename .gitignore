@@ -1,0 +1,10 @@
+
+WOSSkyblock/.project
+WOSSkyblock/.settings/org.eclipse.buildship.core.prefs
+WOSSkyblock/.classpath
+WOSSkyblock/gradle/wrapper/gradle-wrapper.jar
+WOSSkyblock/gradle/wrapper/gradle-wrapper.properties
+WOSSkyblock/gradlew
+WOSSkyblock/gradlew.bat
+*.gradle
+*.class
