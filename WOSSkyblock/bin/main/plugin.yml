@@ -1,7 +1,0 @@
-name: WOSSkyblock
-api-version: 1.13
-version: 1.0.0
-description: Skyblock plugin for WOS
-author: Einstein
-
-main: net.worldofsurvival.wosskyblock.WOSSkyblock
