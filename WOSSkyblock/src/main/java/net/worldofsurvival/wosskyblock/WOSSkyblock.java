@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.worldofsurvival.wosskyblock.commands.IslandCommand;
 import net.worldofsurvival.wosskyblock.items.MainItems;
+import net.worldofsurvival.wosskyblock.items.WarpItems;
 import net.worldofsurvival.wosskyblock.listeners.InventoryClickListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
@@ -22,7 +23,8 @@ public final class WOSSkyblock extends JavaPlugin {
 
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
-	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
+	private WarpItems warpItems = new WarpItems();
+	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems, warpItems);
 
 	@Override
 	public void onEnable() {
@@ -32,7 +34,7 @@ public final class WOSSkyblock extends JavaPlugin {
 				);
 
 		this.registerEvents(this, 
-				new InventoryClickListener(common),
+				new InventoryClickListener(common, mainSelectorMenu),
 				new PlayerInteractListener(common, mainSelectorMenu, mainItems),
 				new PlayerDropListener(common, mainItems),
 				new PlayerRespawnListener(mainItems)

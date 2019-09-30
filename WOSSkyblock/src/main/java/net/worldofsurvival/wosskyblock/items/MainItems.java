@@ -1,7 +1,6 @@
 package net.worldofsurvival.wosskyblock.items;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -31,18 +30,32 @@ public final class MainItems {
 		ItemStack itemstack = new ItemStack(Material.ARROW);
 		ItemMeta meta = itemstack.getItemMeta();
 		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&lBack"));
-		meta.setLore(this.colorizeList(Arrays.asList("test")));
+		meta.setLore(clickToUse());
+		meta.setLore(clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
 	
+	//Menu items
 	public ItemStack home() {
 		ItemStack itemstack = new ItemStack(Material.RED_BED);
 		ItemMeta meta = itemstack.getItemMeta();
 		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&e&lHome"));
+		meta.setLore(clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
+	
+	public ItemStack warps() {
+		ItemStack itemstack = new ItemStack(Material.NETHER_STAR);
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&3&lWarps"));
+		meta.setLore(clickToUse());
+		itemstack.setItemMeta(meta);
+		return itemstack;
+	}
+	
+	//Menu items end
 	
 	public ItemStack menu() {
 		ItemStack itemstack = new ItemStack(Material.EMERALD);
