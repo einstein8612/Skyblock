@@ -22,41 +22,110 @@ public final class InventoryClickListener implements Listener {
 		if (!event.getView().getTitle().contains(common.colorize("&c&l&f&3&5&2")) || event.getCurrentItem() == null) return;
 
 		event.setCancelled(true);
-		Player player = (Player) event.getWhoClicked();
-		switch (common.decolor(event.getView().getTitle())) {
-		case "Skyblock Menu":
-			switch(common.decolor(event.getCurrentItem().getItemMeta().getDisplayName())) {
+
+		final Player player = (Player) event.getWhoClicked();
+		final String title = common.decolor(event.getView().getTitle());
+		final String item = common.decolor(event.getCurrentItem().getItemMeta().getDisplayName());
+
+		if (common.decolor(event.getCurrentItem().getItemMeta().getDisplayName()).equals("Back")) {
+			switch(common.decolor(event.getView().getTitle())) {
+			case"Warp Menu":
+				player.openInventory(islandManageMenu.main());
+				break;
+			case"Wood Farms":
+			case"Mines":
+				player.openInventory(islandManageMenu.warps());
+				break;
+			default:
+				break;
+			}
+			return;
+		}
+		switch (title) {
+		//Main menu
+		case"Skyblock Menu":
+			switch(item) {
 			case"Home":
 				common.tell(player, "Home");
 				player.closeInventory();
 				break;
 			case"Warps":
 				player.openInventory(islandManageMenu.warps());
+				break;
+			}
+
+			//Main > warps buttons
+		case"Warp Menu":
+			switch(item) {
+			case"Mines":
+				player.openInventory(islandManageMenu.mineWarps());
 				break;
 			case"Wood Farms":
 				player.openInventory(islandManageMenu.woodWarps());
 				break;
-			default:
-				break;
 			}
-			break;
-		case "Warp Menu":
-			switch(common.decolor(event.getCurrentItem().getItemMeta().getDisplayName())) {
-			case"Home":
-				common.tell(player, "Home");
+
+			//Warp > mines buttons
+		case"Mines":
+			switch(item) {
+			case"Coal Mine":
+				common.tell(player, "Coal");
 				player.closeInventory();
 				break;
-			case"Warps":
-				player.openInventory(islandManageMenu.warps());
+			case"Lapis Mine":
+				common.tell(player, "Lapis");
+				player.closeInventory();
 				break;
-			default:
+			case"Redstone Mine":
+				common.tell(player, "Redstone");
+				player.closeInventory();
+				break;
+			case"Iron Mine":
+				common.tell(player, "Iron");
+				player.closeInventory();
+				break;
+			case"Gold Mine":
+				common.tell(player, "Gold");
+				player.closeInventory();
+				break;
+			case"Diamond Mine":
+				common.tell(player, "Diamond");
+				player.closeInventory();
+				break;
+			case"Emerald Mine":
+				common.tell(player, "Emerald");
+				player.closeInventory();
 				break;
 			}
-			break;
-		default:
-			break;
 
+			//Warp > woodfarms buttons
+		case"Wood Farms":
+			switch(item) {
+			case"Oak Wood":
+				common.tell(player, "Oak");
+				player.closeInventory();
+				break;
+			case"Birch Wood":
+				common.tell(player, "Birch");
+				player.closeInventory();
+				break;
+			case"Jungle Wood":
+				common.tell(player, "Jungle");
+				player.closeInventory();
+				break;
+			case"Acacia Wood":
+				common.tell(player, "Acacia");
+				player.closeInventory();
+				break;
+			case"Spruce Wood":
+				common.tell(player, "Spruce");
+				player.closeInventory();
+				break;
+			case"Dark Oak Wood":
+				common.tell(player, "Dark Oak");
+				player.closeInventory();
+				break;
+			}
 		}
-
 	}
 }
