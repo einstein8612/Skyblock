@@ -33,6 +33,9 @@ public final class InventoryClickListener implements Listener {
 			case"Warps":
 				player.openInventory(islandManageMenu.warps());
 				break;
+			case"Wood Farms":
+				player.openInventory(islandManageMenu.woodWarps());
+				break;
 			default:
 				break;
 			}
