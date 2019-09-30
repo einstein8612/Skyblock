@@ -1,7 +1,6 @@
 package net.worldofsurvival.wosskyblock.items;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +17,31 @@ public final class MainItems {
 		return lore;
 	}
 	
+	private ArrayList<String> clickToTeleport(){
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add("");
+		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to teleport)"));
+		return lore;
+	}
+	
+	public ItemStack makeClickMeItem(Material mat, String name) {
+		ItemStack itemstack = new ItemStack(mat);
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+		meta.setLore(clickToUse());
+		itemstack.setItemMeta(meta);
+		return itemstack;
+	}
+	
+	public ItemStack makeTeleportItem(Material mat, String name) {
+		ItemStack itemstack = new ItemStack(mat);
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+		meta.setLore(clickToTeleport());
+		itemstack.setItemMeta(meta);
+		return itemstack;
+	}
+	
 	public ItemStack blackPane() {
 		ItemStack itemstack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -30,7 +54,6 @@ public final class MainItems {
 		ItemStack itemstack = new ItemStack(Material.ARROW);
 		ItemMeta meta = itemstack.getItemMeta();
 		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&lBack"));
-		meta.setLore(clickToUse());
 		meta.setLore(clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
@@ -66,13 +89,13 @@ public final class MainItems {
 		return itemstack;
 	}
 	
-	
+	/*
 	private ArrayList<String> colorizeList (List<String> list) {
 		ArrayList<String> finalLore = new ArrayList<String>();
 		for (String str : list) {
 			finalLore.add(ChatColor.translateAlternateColorCodes('&', str));
 		}
 		return finalLore;
-	}
+	}*/
 	
 }

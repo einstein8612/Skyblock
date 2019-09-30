@@ -2,10 +2,6 @@ package net.worldofsurvival.wosskyblock.items;
 
 import java.util.ArrayList;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import net.md_5.bungee.api.ChatColor;
 
 public final class WarpItems {
@@ -17,8 +13,9 @@ public final class WarpItems {
 		return lore;
 	}
 	
+	/*
 	public ItemStack woodFarms() {
-		ItemStack itemstack = new ItemStack(Material.OAK_WOOD);
+		ItemStack itemstack = new ItemStack(Material.DIAMOND_AXE);
 		ItemMeta meta = itemstack.getItemMeta();
 		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&lWood Farms"));
 		meta.setLore(clickToUse());
@@ -78,5 +75,8 @@ public final class WarpItems {
 		meta.setLore(clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
-	}
+	}*/
+	
+	
+	
 }
