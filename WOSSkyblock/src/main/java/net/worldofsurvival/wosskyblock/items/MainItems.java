@@ -15,7 +15,7 @@ public final class MainItems {
 	private ArrayList<String> clickToUse(){
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("");
-		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to use me"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to use me)"));
 		return lore;
 	}
 	
@@ -47,7 +47,7 @@ public final class MainItems {
 	public ItemStack menu() {
 		ItemStack itemstack = new ItemStack(Material.EMERALD);
 		ItemMeta meta = itemstack.getItemMeta();
-		meta.setDisplayName("&5&lSkyblock Menu");
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lSkyblock Menu"));
 		meta.setLore(this.clickToUse());
 		itemstack.setItemMeta(meta);
 		return itemstack;
