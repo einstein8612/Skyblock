@@ -2,6 +2,7 @@ package net.worldofsurvival.wosskyblock.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import net.worldofsurvival.wosskyblock.items.MainItems;
@@ -25,7 +26,9 @@ public final class PlayerInteractListener implements Listener {
 		if (!event.getItem().getItemMeta().getDisplayName().contains(common.colorize("&c&l&f&3&5&2")) || event.getItem() == null) return;
 		
 		if (event.getItem().equals(items.menu())) {
-			event.getPlayer().openInventory(menus.main());
+			if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+				event.getPlayer().openInventory(menus.main());
+			}
 		}
 	}
 	
