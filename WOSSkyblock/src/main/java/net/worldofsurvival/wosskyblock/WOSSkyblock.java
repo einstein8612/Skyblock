@@ -14,6 +14,7 @@ import net.worldofsurvival.wosskyblock.items.MainItems;
 import net.worldofsurvival.wosskyblock.listeners.InventoryClickListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerRespawnListener;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 
@@ -33,7 +34,8 @@ public final class WOSSkyblock extends JavaPlugin {
 		this.registerEvents(this, 
 				new InventoryClickListener(common),
 				new PlayerInteractListener(common, mainSelectorMenu, mainItems),
-				new PlayerDropListener(common, mainItems)
+				new PlayerDropListener(common, mainItems),
+				new PlayerRespawnListener(mainItems)
 				//TODO: Add listener for join to give players the menu item on firs join
 				);
 	}

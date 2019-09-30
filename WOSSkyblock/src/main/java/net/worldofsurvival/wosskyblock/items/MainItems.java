@@ -54,7 +54,6 @@ public final class MainItems {
 	}
 	
 	
-	
 	private ArrayList<String> colorizeList (List<String> list) {
 		ArrayList<String> finalLore = new ArrayList<String>();
 		for (String str : list) {
