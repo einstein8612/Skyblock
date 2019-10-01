@@ -52,9 +52,6 @@ public final class InventoryClickListener implements Listener {
 			case"Warps":
 				player.openInventory(islandManageMenu.warps());
 				break;
-			case"Close":
-				player.closeInventory();
-				break;
 			}
 
 			//Main > warps buttons
@@ -102,7 +99,7 @@ public final class InventoryClickListener implements Listener {
 			}
 
 			//Warp > woodfarms buttons
-		case"Woodlands":
+		case"Wood Farms":
 			switch(item) {
 			case"Oak Wood":
 				common.tell(player, "Oak");
