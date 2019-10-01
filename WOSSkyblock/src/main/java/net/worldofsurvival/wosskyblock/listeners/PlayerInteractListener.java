@@ -1,5 +1,9 @@
 package net.worldofsurvival.wosskyblock.listeners;
 
+import java.util.HashMap;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -14,8 +18,11 @@ public final class PlayerInteractListener implements Listener {
 	private Common common;
 	private IslandManageMenu menus;
 	private MainItems items;
+	private HashMap<Player, FileConfiguration> playerData;
 
-	public PlayerInteractListener(Common common, IslandManageMenu menu, MainItems items) {
+	public PlayerInteractListener(Common common, IslandManageMenu menu, 
+			MainItems items, HashMap<Player, FileConfiguration> playerData) {
+		this.playerData = playerData;
 		this.common = common;
 		this.menus = menu;
 		this.items = items;
@@ -29,8 +36,9 @@ public final class PlayerInteractListener implements Listener {
 			event.setCancelled(true);
 		}
 		if (event.getItem().equals(items.menu()) ) {
+			if ((boolean) playerData.get(event.getPlayer()).get("hasIsland")) {
 			event.getPlayer().openInventory(menus.main());
+			} else common.tell(event.getPlayer(), "Insert create island menu");
 		}
 	}
-
 }
