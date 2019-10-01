@@ -24,6 +24,7 @@ public final class IslandManageMenu {
 
 		inv.setItem(13, mainItems.warps());
 		inv.setItem(40, mainItems.home());
+		inv.setItem(49, mainItems.makeClickMeItem(Material.BARRIER, "&c&lClose"));
 		return inv;
 	}
 
@@ -43,7 +44,7 @@ public final class IslandManageMenu {
 	}
 
 	public Inventory woodWarps() {
-		Inventory inv = Bukkit.createInventory(null, 45, ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lWood Farms"));
+		Inventory inv = Bukkit.createInventory(null, 45, ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lWoodlands"));
 
 		for (int i=0; i<45; i++) {
 			inv.setItem(i, mainItems.blackPane());
@@ -79,6 +80,29 @@ public final class IslandManageMenu {
 		inv.setItem(29, mainItems.makeTeleportItem(Material.GOLD_ORE, "&6&lGold Mine"));
 		inv.setItem(31, mainItems.makeTeleportItem(Material.DIAMOND_ORE, "&b&lDiamond Mine"));
 		inv.setItem(33, mainItems.makeTeleportItem(Material.EMERALD_ORE, "&a&lEmerald Mine"));
+		
+		inv.setItem(44, mainItems.back());
+		
+		return inv;
+	}
+	
+	public Inventory farmWarps() {
+		Inventory inv = Bukkit.createInventory(null, 45, ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lMines"));
+
+		for (int i=0; i<45; i++) {
+			inv.setItem(i, mainItems.blackPane());
+		}
+		//TOP ROW
+		inv.setItem(10, mainItems.makeTeleportItem(Material.WHEAT, "&8&lCoal Mine"));
+		inv.setItem(12, mainItems.makeTeleportItem(Material.CARROT, "&9&lLapis Mine"));
+		inv.setItem(14, mainItems.makeTeleportItem(Material.POTATO, "&c&lRedstone Mine"));
+		inv.setItem(16, mainItems.makeTeleportItem(Material.MELON_SLICE, "&7&lIron Mine"));
+		
+		//BOTTOM ROW
+		inv.setItem(28, mainItems.makeTeleportItem(Material.PUMPKIN, "&6&lGold Mine"));
+		inv.setItem(30, mainItems.makeTeleportItem(Material.SUGAR_CANE, "&b&lDiamond Mine"));
+		inv.setItem(32, mainItems.makeTeleportItem(Material.CACTUS, "&a&lEmerald Mine"));
+		inv.setItem(34, mainItems.makeTeleportItem(Material.BEETROOT, "&a&lEmerald Mine"));
 		
 		inv.setItem(44, mainItems.back());
 		
