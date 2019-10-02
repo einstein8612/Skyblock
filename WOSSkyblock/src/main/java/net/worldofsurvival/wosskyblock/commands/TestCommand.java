@@ -4,13 +4,14 @@ import java.util.HashMap;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public class TestCommand extends Command {
 	
-	private HashMap<Player, FileConfiguration> playerData;	
-	public TestCommand(HashMap<Player, FileConfiguration> playerData) {
+	private HashMap<Player, IslandMethods> playerData;	
+	public TestCommand(HashMap<Player, IslandMethods> playerData) {
 		super("test");
 		
 		
@@ -21,8 +22,8 @@ public class TestCommand extends Command {
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 		if (playerData.containsKey((Player) sender)) {
-			FileConfiguration config = playerData.get((Player) sender);
-			sender.sendMessage((String) config.get("name"));
+			IslandMethods config = playerData.get((Player) sender);
+			sender.sendMessage((String) config.getConfig().get("name"));
 		}
 		return true;
 	}

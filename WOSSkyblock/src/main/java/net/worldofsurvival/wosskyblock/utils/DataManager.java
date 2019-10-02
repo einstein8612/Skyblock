@@ -42,10 +42,9 @@ public final class DataManager {
 		
 	}
 	
-	public FileConfiguration getPlayerData(Player player) {
+	public File getPlayerFile(Player player) {
 		File file = new File(plugin.getDataFolder(), "playerdata/" + player.getUniqueId().toString() + ".yml");
-		FileConfiguration data = YamlConfiguration.loadConfiguration(file);
-		return data;
+		return file;
 	}
 	
 	public void createPlayerData(Player player) {
