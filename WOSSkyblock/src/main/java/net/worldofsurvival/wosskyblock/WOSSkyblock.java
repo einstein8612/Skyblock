@@ -1,12 +1,12 @@
 package net.worldofsurvival.wosskyblock;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -20,17 +20,21 @@ import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerJoinListener;
 import net.worldofsurvival.wosskyblock.listeners.PlayerRespawnListener;
+import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 import net.worldofsurvival.wosskyblock.utils.DataManager;
+import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public final class WOSSkyblock extends JavaPlugin {
 
+	
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
 	private DataManager datam;
-	private HashMap<Player, FileConfiguration> playerData = new HashMap<Player, FileConfiguration>();
+	private HashMap<Player, IslandMethods> playerData = new HashMap<Player, IslandMethods>();
+	private CreateIslandMenu createIslandMenu = new CreateIslandMenu(mainItems);
 
 	@Override
 	public void onEnable() {
@@ -41,13 +45,26 @@ public final class WOSSkyblock extends JavaPlugin {
 				);
 
 		this.registerEvents(this, 
-				new InventoryClickListener(common, mainSelectorMenu),
-				new PlayerInteractListener(common, mainSelectorMenu, mainItems, playerData),
+				new InventoryClickListener(common, createIslandMenu, mainSelectorMenu),
+				new PlayerInteractListener(common, mainSelectorMenu, createIslandMenu, mainItems, playerData),
 				new PlayerDropListener(common, mainItems),
 				new PlayerRespawnListener(mainItems),
 				new PlayerJoinListener(datam, mainItems.menu(), playerData)
 				//TODO: Add listener for join to give players the menu item on firs join
 				);
+	}
+	
+	@Override
+	public void onDisable() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			try {
+				playerData.get(player).saveData(player);
+			} catch (IOException e) {
+				common.logError("Data saving has failed for: " + player.getName());
+				e.printStackTrace();
+			}
+		}
+		Bukkit.getConsoleSender().sendMessage("Saved");
 	}
 
 	private void setup() {
