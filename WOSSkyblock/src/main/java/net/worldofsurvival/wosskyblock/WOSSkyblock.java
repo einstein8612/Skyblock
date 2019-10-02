@@ -12,11 +12,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.worldofsurvival.wosskyblock.commands.IslandCommand;
 import net.worldofsurvival.wosskyblock.items.MainItems;
 import net.worldofsurvival.wosskyblock.listeners.InventoryClickListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
+import net.worldofsurvival.wosskyblock.listeners.PlayerRespawnListener;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 
 public final class WOSSkyblock extends JavaPlugin {
-	//Edit something and send me a screenie of your GitHub desktop
+
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
@@ -29,13 +32,13 @@ public final class WOSSkyblock extends JavaPlugin {
 				);
 
 		this.registerEvents(this, 
-				new InventoryClickListener(common)
-
+				new InventoryClickListener(common, mainSelectorMenu),
+				new PlayerInteractListener(common, mainSelectorMenu, mainItems),
+				new PlayerDropListener(common, mainItems),
+				new PlayerRespawnListener(mainItems)
+				//TODO: Add listener for join to give players the menu item on firs join
 				);
-		Command command;
-
 	}
-
 
 	//Registering events.
 	private void registerEvents(WOSSkyblock plugin, Listener... listeners) {
