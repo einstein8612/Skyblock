@@ -42,12 +42,12 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 				switch(args[0]) {
 				case "help":
 				case "info":
-					common.tell(sender, "&e--===[ &6&lWOSSkyblock &e]===--");
-					common.tell(sender, "&e- &6/is tp <name>");
-					common.tell(sender, "&e- &6/is warp [name]");
-					common.tell(sender, "&e- &6/is setbiome [biome]");
-					common.tell(sender, "&e- &6/is upgrade");
-					common.tell(sender, "&e--===[ &6&lWOSSkyblock &e]===--");
+					common.tell(sender, "&d--===[ &5&lWOSSkyblock &d]===--");
+					common.tell(sender, "&d- &5/is tp <name>");
+					common.tell(sender, "&d- &5/is warp [name]");
+					common.tell(sender, "&d- &5/is setbiome [biome]");
+					common.tell(sender, "&d- &5/is upgrade");
+					common.tell(sender, "&d--===[ &5&lWOSSkyblock &d]===--");
 					break;
 					
 				default:
