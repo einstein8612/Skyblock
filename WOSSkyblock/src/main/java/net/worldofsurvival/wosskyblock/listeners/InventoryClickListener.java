@@ -5,16 +5,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
 
 public final class InventoryClickListener implements Listener {
 
+	private CreateIslandMenu createIslandMenu;
 	private IslandManageMenu islandManageMenu;
 	private Common common;
-	public InventoryClickListener(Common common, IslandManageMenu islandManageMenu) {
+	public InventoryClickListener(Common common, CreateIslandMenu createIslandMenu, IslandManageMenu islandManageMenu) {
 		this.common = common;
 		this.islandManageMenu = islandManageMenu;
+		this.createIslandMenu = createIslandMenu;
 	}
 
 	@EventHandler
@@ -45,6 +48,10 @@ public final class InventoryClickListener implements Listener {
 		//Main menu
 		case"Skyblock Menu":
 			switch(item) {
+			case"Set Home":
+				common.tell(player, "sethome");
+				player.closeInventory();
+				break;
 			case"Home":
 				common.tell(player, "Home");
 				player.closeInventory();
@@ -54,6 +61,8 @@ public final class InventoryClickListener implements Listener {
 				break;
 			case"Close":
 				player.closeInventory();
+				break;
+			default:
 				break;
 			}
 
@@ -65,6 +74,8 @@ public final class InventoryClickListener implements Listener {
 				break;
 			case"Wood Farms":
 				player.openInventory(islandManageMenu.woodWarps());
+				break;
+			default:
 				break;
 			}
 
@@ -99,7 +110,10 @@ public final class InventoryClickListener implements Listener {
 				common.tell(player, "Emerald");
 				player.closeInventory();
 				break;
+			default:
+				break;
 			}
+		
 
 			//Warp > woodfarms buttons
 		case"Woodlands":
@@ -127,6 +141,26 @@ public final class InventoryClickListener implements Listener {
 			case"Dark Oak Wood":
 				common.tell(player, "Dark Oak");
 				player.closeInventory();
+				break;
+			default:
+				break;
+			}
+		case"Skyblock Creation":
+			switch(item) {
+			case"Classic Island":
+				common.tell(player, "classic");
+				
+				player.closeInventory();
+				break;
+			case"Custom Island":
+				common.tell(player, "custom");
+				player.closeInventory();
+				break;
+			case"*Placeholder* Island":
+				common.tell(player, "placeholder");
+				player.closeInventory();
+				break;
+			default:
 				break;
 			}
 		}
