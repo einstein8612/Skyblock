@@ -1,23 +1,39 @@
 package net.worldofsurvival.wosskyblock.listeners;
 
+import java.util.HashMap;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import net.worldofsurvival.wosskyblock.generators.IslandGenerator;
 import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
+import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public final class InventoryClickListener implements Listener {
 
 	private CreateIslandMenu createIslandMenu;
 	private IslandManageMenu islandManageMenu;
+	private IslandGenerator generator;
+	private FileConfiguration skyblocks;
+	private HashMap<Player, IslandMethods> playerData;
 	private Common common;
-	public InventoryClickListener(Common common, CreateIslandMenu createIslandMenu, IslandManageMenu islandManageMenu) {
+	public InventoryClickListener(Common common, CreateIslandMenu createIslandMenu, 
+			IslandManageMenu islandManageMenu, FileConfiguration skyblocks, 
+			HashMap<Player, IslandMethods> playerData, IslandGenerator generator) {
+		this.generator = generator;
 		this.common = common;
 		this.islandManageMenu = islandManageMenu;
 		this.createIslandMenu = createIslandMenu;
+		this.skyblocks = skyblocks;
+		this.playerData = playerData;
 	}
 
 	@EventHandler
@@ -29,6 +45,7 @@ public final class InventoryClickListener implements Listener {
 		final Player player = (Player) event.getWhoClicked();
 		final String title = common.decolor(event.getView().getTitle());
 		final String item = common.decolor(event.getCurrentItem().getItemMeta().getDisplayName());
+		final IslandMethods island = playerData.get(player);
 
 		if (common.decolor(event.getCurrentItem().getItemMeta().getDisplayName()).equals("Back")) {
 			switch(common.decolor(event.getView().getTitle())) {
@@ -54,6 +71,7 @@ public final class InventoryClickListener implements Listener {
 				break;
 			case"Home":
 				common.tell(player, "Home");
+				island.teleport(player);
 				player.closeInventory();
 				break;
 			case"Warps":
@@ -113,7 +131,6 @@ public final class InventoryClickListener implements Listener {
 			default:
 				break;
 			}
-		
 
 			//Warp > woodfarms buttons
 		case"Woodlands":
@@ -149,7 +166,7 @@ public final class InventoryClickListener implements Listener {
 			switch(item) {
 			case"Classic Island":
 				common.tell(player, "classic");
-				
+				this.createIslandInfo(island, this.skyblocks);
 				player.closeInventory();
 				break;
 			case"Custom Island":
@@ -163,6 +180,21 @@ public final class InventoryClickListener implements Listener {
 			default:
 				break;
 			}
+		}
+	}
+	private void createIslandInfo(IslandMethods island, FileConfiguration skyblocks) {
+		if (island.getConfig().get("islandMiddle") == null) {
+			
+			if (skyblocks.getConfigurationSection("Skyblocks") == null) {
+				skyblocks.createSection("Skyblocks");
+			}
+			Set<String> keys = skyblocks.getConfigurationSection("Skyblocks").getKeys(false);
+			int count = keys.toArray().length;
+
+			island.getConfig().set("islandMiddle", new Location(Bukkit.getWorld("Skyblocks"), 1000*count, 128, 1000*count));
+			island.getConfig().set("hasIsland", true);
+
+			skyblocks.set("Skyblocks." + count+1, "Tested");
 		}
 	}
 }
