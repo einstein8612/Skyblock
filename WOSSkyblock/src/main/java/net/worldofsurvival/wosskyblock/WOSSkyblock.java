@@ -53,7 +53,7 @@ public final class WOSSkyblock extends JavaPlugin {
 		registerOnlinePlayers();
 		this.registerCommands(
 				new IslandCommand(common, mainSelectorMenu),
-				new TestCommand(playerData)
+				new TestCommand(datam)
 				);
 
 		this.registerEvents(this, 
