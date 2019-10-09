@@ -2,6 +2,9 @@ package net.worldofsurvival.wosskyblock.commands;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,10 +24,11 @@ public class TestCommand extends Command {
 
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		if (playerData.containsKey((Player) sender)) {
-			IslandMethods config = playerData.get((Player) sender);
-			sender.sendMessage((String) config.getConfig().get("name"));
-		}
+		World world = Bukkit.getWorld("Skyblocks");
+		Player player = (Player) sender;
+		Location location = new Location(world, 0, 128, 0);
+		player.teleport(location);
+		player.sendMessage("test");
 		return true;
 	}
 }
