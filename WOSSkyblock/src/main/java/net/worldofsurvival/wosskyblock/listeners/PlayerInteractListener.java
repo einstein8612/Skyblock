@@ -33,6 +33,7 @@ public final class PlayerInteractListener implements Listener {
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
+
 		if (event.getItem() == null || !event.getItem().getItemMeta().getDisplayName().contains(common.colorize("&c&l&f&3&5&2"))) return;
 
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -40,7 +41,7 @@ public final class PlayerInteractListener implements Listener {
 		}
 		if (event.getItem().equals(items.menu()) ) {
 			if ((boolean) playerData.get(event.getPlayer()).getConfig().get("hasIsland")) {
-			event.getPlayer().openInventory(menus.main());
+				event.getPlayer().openInventory(menus.main());
 			} else event.getPlayer().openInventory(createIslandMenu.createIsland());
 		}
 	}
