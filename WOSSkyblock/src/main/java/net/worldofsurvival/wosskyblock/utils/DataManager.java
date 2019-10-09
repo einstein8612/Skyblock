@@ -16,6 +16,9 @@ public final class DataManager {
 	private File configFile;
 	private FileConfiguration config;
 	
+	private File skyblocksFile;
+	private FileConfiguration skyblocks;
+	
 	private Plugin plugin;
 	
 	public void setup(Plugin plugin) {
@@ -23,6 +26,7 @@ public final class DataManager {
 		
 		this.dataFolder = new File(plugin.getDataFolder(), "playerdata");
 		this.configFile = new File(plugin.getDataFolder(), "config.yml");
+		this.skyblocksFile = new File(plugin.getDataFolder(), "skyblocks.yml");
 		
 		//MAKE DATA FOLDER
 		if (!plugin.getDataFolder().exists()) {
@@ -37,14 +41,37 @@ public final class DataManager {
 			plugin.saveResource("config.yml", false);
 		}
 		
+		if (!skyblocksFile.exists()) {
+			try {
+				skyblocksFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 		config = YamlConfiguration.loadConfiguration(configFile);
+		skyblocks = YamlConfiguration.loadConfiguration(skyblocksFile);
 		
 	}
 	
 	public File getPlayerFile(Player player) {
 		File file = new File(plugin.getDataFolder(), "playerdata/" + player.getUniqueId().toString() + ".yml");
 		return file;
+	}
+	
+	public FileConfiguration getSkyblocksFile() {
+		return skyblocks;
+	}
+	
+	public void saveSkyblocks() {
+		try {
+			skyblocks.save(skyblocksFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void createPlayerData(Player player) {
@@ -55,6 +82,7 @@ public final class DataManager {
 		data.set("hasTeam", false);
 		data.set("hasIsland", false);
 		data.set("islandResets", 3);
+		data.set("maxIsland", 125);
 		ArrayList<String> teamMates = new ArrayList<String>();
 		data.set("teamMates", teamMates);
 		data.set("teamLeader", "");
