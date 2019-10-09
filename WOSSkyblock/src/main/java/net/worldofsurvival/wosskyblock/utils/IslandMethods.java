@@ -24,4 +24,8 @@ public final class IslandMethods {
 	public void saveData(Player player) throws IOException {
 		playerConfig.save(playerFile);
 	}
+	
+	public void teleport(Player player) {
+		player.teleport(playerConfig.getLocation("islandMiddle"));
+	}
 }
