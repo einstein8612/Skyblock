@@ -2,6 +2,7 @@ package net.worldofsurvival.wosskyblock.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -9,15 +10,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
 import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
 import net.worldofsurvival.wosskyblock.utils.Common;
+import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public final class IslandCommand extends PlayerCommand implements TabCompleter {
 
 	private Common common;
 	private IslandManageMenu menus;
+	private HashMap<Player, IslandMethods> playerData;
+	private CreateIslandMenu createIslandMenu;
 	
-	public IslandCommand(Common common, IslandManageMenu menus) {
+	public IslandCommand(Common common, IslandManageMenu menus, 
+			HashMap<Player, IslandMethods> playerData, CreateIslandMenu createIslandMenu) {
 		//Start fake plugin.yml
 		super("island");
 
@@ -28,6 +34,8 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 		//Passing classes part
 		this.common = common;
 		this.menus = menus;
+		this.playerData = playerData;
+		this.createIslandMenu = createIslandMenu;
 		//END
 	}
 
@@ -36,6 +44,9 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 		if (args.length==0) {
 			//TODO: Open menu
 			sender.openInventory(menus.main());
+			if ((boolean) playerData.get(sender).getConfig().get("hasIsland")) {
+				sender.openInventory(menus.main());
+			} else sender.openInventory(createIslandMenu.createIsland());
 		} else
 			if (args.length==1) {
 				//Text menu for people who prefer typing
