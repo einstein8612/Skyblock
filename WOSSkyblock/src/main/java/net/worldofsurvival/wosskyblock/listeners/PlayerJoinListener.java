@@ -25,7 +25,7 @@ public final class PlayerJoinListener implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		if (event.getPlayer().hasPlayedBefore()) {
+		if (!event.getPlayer().hasPlayedBefore()) {
 			event.getPlayer().getInventory().setItem(8, menu);
 			dm.createPlayerData(event.getPlayer());
 		}
