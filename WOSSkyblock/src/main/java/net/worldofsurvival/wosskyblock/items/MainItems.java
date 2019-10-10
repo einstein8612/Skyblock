@@ -3,8 +3,12 @@ package net.worldofsurvival.wosskyblock.items;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.block.Skull;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -22,6 +26,21 @@ public final class MainItems {
 		lore.add("");
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to teleport)"));
 		return lore;
+	}
+	
+	private ArrayList<String> clickToEmpty(String string){
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add("");
+		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to " + string + ")"));
+		return lore;
+	}
+	
+	public ItemStack makeSkullItem(String name, Player player) {
+		
+		
+		ItemMeta meta = null;
+		meta.setLore(this.clickToEmpty("invite"));
+		return null;
 	}
 	
 	public ItemStack makeClickMeItem(Material mat, String name) {
