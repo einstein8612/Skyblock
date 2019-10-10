@@ -52,7 +52,7 @@ public final class WOSSkyblock extends JavaPlugin {
 		setup();
 		registerOnlinePlayers();
 		this.registerCommands(
-				new IslandCommand(common, mainSelectorMenu),
+				new IslandCommand(common, mainSelectorMenu, playerData, createIslandMenu),
 				new TestCommand(datam)
 				);
 
@@ -89,6 +89,7 @@ public final class WOSSkyblock extends JavaPlugin {
 		if (getServer().getWorld("Skyblocks") == null) {
 			WorldCreator worldCreator = new WorldCreator("Skyblocks");
 			ChunkGenerator generator = new VoidGenerator();
+			worldCreator.generateStructures(false);
 			worldCreator.type(WorldType.CUSTOMIZED);
 			worldCreator.generator(generator);
 			worldCreator.createWorld();
