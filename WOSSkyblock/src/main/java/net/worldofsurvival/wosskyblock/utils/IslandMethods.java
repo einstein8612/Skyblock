@@ -3,6 +3,11 @@ package net.worldofsurvival.wosskyblock.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -26,6 +31,30 @@ public final class IslandMethods {
 	}
 	
 	public void teleport(Player player) {
-		player.teleport(playerConfig.getLocation("islandMiddle"));
+		World skyblock = Bukkit.getWorld("Skyblocks");
+		Location location = new Location(skyblock,
+				playerConfig.getInt("islandMiddle.X"),
+				playerConfig.getInt("islandMiddle.Y"),
+				playerConfig.getInt("islandMiddle.Z"));
+		if (!this.isSafe(location)) {
+			location.setY(skyblock.getHighestBlockYAt(location));
+			player.teleport(location);
+			return;
+		}
+		player.teleport(location);
+	}
+	
+	private boolean isSafe(Location location) {
+		Block feet = location.getBlock();
+        if (feet.getType().isSolid()) {
+            return false; // not transparent (will suffocate)
+        }
+        Block head = feet.getRelative(BlockFace.UP);
+        if (head.getType().isSolid()) {
+            return false; // not transparent (will suffocate)
+        }
+        Block ground = feet.getRelative(BlockFace.DOWN);
+        // returns if the ground is solid or not.
+        return ground.getType().isSolid();
 	}
 }

@@ -32,11 +32,8 @@ public final class BlockPlaceListener implements Listener {
 				final int x = event.getBlock().getX();
 				final int z = event.getBlock().getZ();
 
-				if (!(island.getConfig().get("islandMiddle") instanceof Location)) return;
-
-				Location loc = (Location) island.getConfig().get("islandMiddle");
-				final int middleX = loc.getBlockX();
-				final int middleZ = loc.getBlockZ();
+				final int middleX = island.getConfig().getInt("islandMiddle.X");
+				final int middleZ = island.getConfig().getInt("islandMiddle.Z");
 				
 				final int max = island.getConfig().getInt("maxIsland");
 

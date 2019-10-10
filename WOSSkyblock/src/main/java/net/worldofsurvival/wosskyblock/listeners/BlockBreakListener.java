@@ -3,7 +3,6 @@ package net.worldofsurvival.wosskyblock.listeners;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,15 +29,11 @@ public final class BlockBreakListener implements Listener {
 			IslandMethods island = playerData.get(event.getPlayer());
 			if (!event.getPlayer().hasPermission("wosskyblock.bypass")) {
 
-
 				final int x = event.getBlock().getX();
 				final int z = event.getBlock().getZ();
 
-				if (!(island.getConfig().get("islandMiddle") instanceof Location)) return;
-
-				Location loc = (Location) island.getConfig().get("islandMiddle");
-				final int middleX = loc.getBlockX();
-				final int middleZ = loc.getBlockZ();
+				final int middleX = island.getConfig().getInt("islandMiddle.X");
+				final int middleZ = island.getConfig().getInt("islandMiddle.Z");
 
 				final int max = island.getConfig().getInt("maxIsland");
 

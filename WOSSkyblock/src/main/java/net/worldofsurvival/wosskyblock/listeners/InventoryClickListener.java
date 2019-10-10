@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,6 +51,7 @@ public final class InventoryClickListener implements Listener {
 		if (common.decolor(event.getCurrentItem().getItemMeta().getDisplayName()).equals("Back")) {
 			switch(common.decolor(event.getView().getTitle())) {
 			case"Warp Menu":
+			case"Players":
 				player.openInventory(islandManageMenu.main());
 				break;
 			case"Wood Farms":
@@ -165,7 +167,12 @@ public final class InventoryClickListener implements Listener {
 		case"Skyblock Creation":
 			switch(item) {
 			case"Classic Island":
-				common.tell(player, "classic");
+				World skyblock = Bukkit.getWorld("Skyblocks");
+				Location location = new Location(skyblock,
+						island.getConfig().getInt("islandMiddle.X"),
+						128,
+						island.getConfig().getInt("islandMiddle.Z"));
+				generator.generateClassic(location);
 				this.createIslandInfo(island, this.skyblocks);
 				player.closeInventory();
 				break;
@@ -183,18 +190,22 @@ public final class InventoryClickListener implements Listener {
 		}
 	}
 	private void createIslandInfo(IslandMethods island, FileConfiguration skyblocks) {
-		if (island.getConfig().get("islandMiddle") == null) {
-			
-			if (skyblocks.getConfigurationSection("Skyblocks") == null) {
-				skyblocks.createSection("Skyblocks");
-			}
-			Set<String> keys = skyblocks.getConfigurationSection("Skyblocks").getKeys(false);
-			int count = keys.toArray().length;
 
-			island.getConfig().set("islandMiddle", new Location(Bukkit.getWorld("Skyblocks"), 1000*count, 128, 1000*count));
-			island.getConfig().set("hasIsland", true);
-
-			skyblocks.set("Skyblocks." + count+1, "Tested");
+		if (skyblocks.getConfigurationSection("Skyblocks") == null) {
+			skyblocks.createSection("Skyblocks");
 		}
+		Set<String> keys = skyblocks.getConfigurationSection("Skyblocks").getKeys(false);
+		int count = keys.size();
+		
+		if (count==1 && skyblocks.get("Skyblocks."+String.valueOf(1)).equals("Don't remove this!")) count=0;
+
+		island.getConfig().set("islandMiddle.World", "Skyblocks");
+		island.getConfig().set("islandMiddle.X", 2000*count);
+		island.getConfig().set("islandMiddle.Y", 135);
+		island.getConfig().set("islandMiddle.Z", 2000*count);
+
+		island.getConfig().set("hasIsland", true);
+
+		skyblocks.set("Skyblocks." + count, "Tested");
 	}
 }
