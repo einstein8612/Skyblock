@@ -2,6 +2,7 @@ package net.worldofsurvival.wosskyblock.menus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import net.md_5.bungee.api.ChatColor;
@@ -105,6 +106,35 @@ public final class IslandManageMenu {
 		inv.setItem(34, mainItems.makeTeleportItem(Material.BEETROOT, "&a&lEmerald Mine"));
 		
 		inv.setItem(44, mainItems.back());
+		
+		return inv;
+	}
+	
+	public Inventory playerInvites() {
+		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lPlayers"));
+		
+		for (int i=0; i<9; i++) {
+			inv.setItem(i, mainItems.blackPane());
+		}
+		
+		inv.setItem(9, mainItems.blackPane());
+		inv.setItem(17, mainItems.blackPane());
+		inv.setItem(18, mainItems.blackPane());
+		inv.setItem(26, mainItems.blackPane());
+		inv.setItem(27, mainItems.blackPane());
+		inv.setItem(35, mainItems.blackPane());
+		inv.setItem(36, mainItems.blackPane());
+		inv.setItem(44, mainItems.blackPane());
+
+		for (int i=45; i<53; i++) {
+			inv.setItem(i, mainItems.blackPane());
+		}
+		
+		inv.setItem(53, mainItems.back());
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			String displayName = ChatColor.DARK_PURPLE + player.getName();
+		}
 		
 		return inv;
 	}
