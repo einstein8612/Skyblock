@@ -42,12 +42,7 @@ public final class DataManager {
 		}
 		
 		if (!skyblocksFile.exists()) {
-			try {
-				skyblocksFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			plugin.saveResource("skyblocks.yml", false);
 		}
 		
 		
