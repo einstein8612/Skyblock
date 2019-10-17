@@ -13,7 +13,7 @@ public abstract class PlayerCommand extends Command {
 	}
 
 	private Common common = new Common();
-	
+
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 		if (!(sender instanceof Player)) {
