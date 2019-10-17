@@ -3,7 +3,6 @@ package net.worldofsurvival.wosskyblock.listeners;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +33,7 @@ public final class BlockPlaceListener implements Listener {
 
 				final int middleX = island.getConfig().getInt("islandMiddle.X");
 				final int middleZ = island.getConfig().getInt("islandMiddle.Z");
-				
+
 				final int max = island.getConfig().getInt("maxIsland");
 
 				if (!((x - middleX) <= max && (x - middleX) >= -max && (z - middleZ) <= max && (z - middleZ) >= -max)) {

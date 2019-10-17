@@ -23,7 +23,7 @@ public final class BlockBreakListener implements Listener {
 
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
-		//TEMP
+		// TEMP
 		final Player player = event.getPlayer();
 		if (event.getBlock().getLocation().getWorld() == Bukkit.getWorld("Skyblocks")) {
 			IslandMethods island = playerData.get(event.getPlayer());
