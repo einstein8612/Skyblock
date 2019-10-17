@@ -3,8 +3,7 @@ package net.worldofsurvival.wosskyblock.items;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
-import org.bukkit.SkullType;
-import org.bukkit.block.Skull;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,12 +34,17 @@ public final class MainItems {
 		return lore;
 	}
 	
-	public ItemStack makeSkullItem(String name, Player player) {
+	public ItemStack makeSkullItem(String name, OfflinePlayer teamMate) {
 		
-		
-		ItemMeta meta = null;
-		meta.setLore(this.clickToEmpty("invite"));
-		return null;
+		ItemStack stack = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) stack.getItemMeta();
+        meta.setOwningPlayer(teamMate);
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        meta.setLore(this.clickToEmpty("invite"));
+        stack.setItemMeta(meta);
+        
+        return stack;
+        
 	}
 	
 	public ItemStack makeClickMeItem(Material mat, String name) {
@@ -109,12 +113,10 @@ public final class MainItems {
 	}
 	
 	/*
-	private ArrayList<String> colorizeList (List<String> list) {
-		ArrayList<String> finalLore = new ArrayList<String>();
-		for (String str : list) {
-			finalLore.add(ChatColor.translateAlternateColorCodes('&', str));
-		}
-		return finalLore;
-	}*/
-	
+	 * private ArrayList<String> colorizeList (List<String> list) {
+	 * ArrayList<String> finalLore = new ArrayList<String>(); for (String str :
+	 * list) { finalLore.add(ChatColor.translateAlternateColorCodes('&', str)); }
+	 * return finalLore; }
+	 */
+
 }
