@@ -22,8 +22,8 @@ public final class PlayerInteractListener implements Listener {
 	private MainItems items;
 	private HashMap<Player, IslandMethods> playerData;
 
-	public PlayerInteractListener(Common common, IslandManageMenu menu, 
-			CreateIslandMenu createIslandMenu, MainItems items, HashMap<Player, IslandMethods> playerData) {
+	public PlayerInteractListener(Common common, IslandManageMenu menu, CreateIslandMenu createIslandMenu,
+			MainItems items, HashMap<Player, IslandMethods> playerData) {
 		this.playerData = playerData;
 		this.common = common;
 		this.menus = menu;
@@ -34,15 +34,18 @@ public final class PlayerInteractListener implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 
-		if (event.getItem() == null || !event.getItem().getItemMeta().getDisplayName().contains(common.colorize("&c&l&f&3&5&2"))) return;
+		if (event.getItem() == null
+				|| !event.getItem().getItemMeta().getDisplayName().contains(common.colorize("&c&l&f&3&5&2")))
+			return;
 
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			event.setCancelled(true);
 		}
-		if (event.getItem().equals(items.menu()) ) {
+		if (event.getItem().equals(items.menu())) {
 			if ((boolean) playerData.get(event.getPlayer()).getConfig().get("hasIsland")) {
 				event.getPlayer().openInventory(menus.main());
-			} else event.getPlayer().openInventory(createIslandMenu.createIsland());
+			} else
+				event.getPlayer().openInventory(createIslandMenu.createIsland());
 		}
 	}
 }
