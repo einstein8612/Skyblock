@@ -16,8 +16,8 @@ public final class PlayerJoinListener implements Listener {
 	private HashMap<Player, IslandMethods> playerData;
 	private DataManager dm;
 	private ItemStack menu;
-	public PlayerJoinListener(DataManager datam, ItemStack menu, 
-			HashMap<Player, IslandMethods> playerData) {
+
+	public PlayerJoinListener(DataManager datam, ItemStack menu, HashMap<Player, IslandMethods> playerData) {
 		this.playerData = playerData;
 		this.dm = datam;
 		this.menu = menu;
