@@ -3,6 +3,8 @@ package net.worldofsurvival.wosskyblock;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
@@ -36,7 +38,6 @@ import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public final class WOSSkyblock extends JavaPlugin {
 
-
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
@@ -45,46 +46,59 @@ public final class WOSSkyblock extends JavaPlugin {
 	private HashMap<Player, IslandMethods> playerData = new HashMap<Player, IslandMethods>();
 	private CreateIslandMenu createIslandMenu = new CreateIslandMenu(mainItems);
 	private IslandGenerator islandGenerator = new IslandGenerator();
+	
+	private static WOSSkyblock instance;
+
+	private Logger logger;
 
 	@Override
 	public void onEnable() {
+		logger = getLogger();
+
+		instance = this;
+		
 		worldSetup();
 		setup();
 		registerOnlinePlayers();
-		this.registerCommands(
-				new IslandCommand(common, mainSelectorMenu, playerData, createIslandMenu),
-				new TestCommand(datam)
-				);
+		this.registerCommands(new IslandCommand(common, mainSelectorMenu, playerData, createIslandMenu),
+				new TestCommand(datam, playerData, islandGenerator));
 
-		this.registerEvents(this, 
-				new BlockPlaceListener(common, playerData),
+		this.registerEvents(this, new BlockPlaceListener(common, playerData),
 				new BlockBreakListener(common, playerData),
-				new InventoryClickListener(common, createIslandMenu, mainSelectorMenu, skyblocks, playerData, islandGenerator),
+				new InventoryClickListener(common, createIslandMenu, mainSelectorMenu, skyblocks, playerData,
+						islandGenerator),
 				new PlayerInteractListener(common, mainSelectorMenu, createIslandMenu, mainItems, playerData),
-				new PlayerDropListener(common, mainItems),
-				new PlayerRespawnListener(mainItems),
+				new PlayerDropListener(common, mainItems), new PlayerRespawnListener(mainItems),
 				new PlayerJoinListener(datam, mainItems.menu(), playerData)
-				//TODO: Add listener for join to give players the menu item on firs join
-				);
+		// TODO: Add listener for join to give players the menu item on firs join
+		);
 	}
 
 	@Override
 	public void onDisable() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
+		
+		instance = null;
+		
+		for (Player player : playerData.keySet()) {
 			try {
 				playerData.get(player).saveData(player);
 			} catch (IOException e) {
-				common.logError("Data saving has failed for: " + player.getName());
+				logger.log(Level.SEVERE, "Data saving has failed for: " + player.getName());
 				e.printStackTrace();
 			}
 		}
 
-		common.log("Saved playerdata.");
+		logger.log(Level.INFO, "Saved playerdata.");
 
 		datam.saveSkyblocks();
-		common.log("Saved skyblock file.");
+		logger.log(Level.INFO, "Saved skyblock info file.");
+
 	}
 
+	public static WOSSkyblock getInstance() {
+		return instance;
+	}
+	
 	private void worldSetup() {
 		if (getServer().getWorld("Skyblocks") == null) {
 			WorldCreator worldCreator = new WorldCreator("Skyblocks");
@@ -110,15 +124,16 @@ public final class WOSSkyblock extends JavaPlugin {
 		skyblocks = datam.getSkyblocksFile();
 	}
 
-	//Registering events.
+	// Registering events.
 	private void registerEvents(WOSSkyblock plugin, Listener... listeners) {
 		final PluginManager pm = plugin.getServer().getPluginManager();
 
 		for (final Listener lis : listeners)
 			pm.registerEvents(lis, plugin);
+
 	}
 
-	//Registering commands to the command map
+	// Registering commands to the command map
 	private void registerCommands(Command... commands) {
 		for (Command command : commands) {
 			try {
@@ -130,7 +145,7 @@ public final class WOSSkyblock extends JavaPlugin {
 			} catch (final Exception e) {
 				e.printStackTrace();
 
-				common.log("&4Could not register command: " + command.getName());
+				logger.log(Level.SEVERE, "&4Could not register command: " + command.getName());
 			}
 		}
 	}
