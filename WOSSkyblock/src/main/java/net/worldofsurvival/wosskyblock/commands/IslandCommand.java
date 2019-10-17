@@ -21,51 +21,51 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 	private IslandManageMenu menus;
 	private HashMap<Player, IslandMethods> playerData;
 	private CreateIslandMenu createIslandMenu;
-	
-	public IslandCommand(Common common, IslandManageMenu menus, 
-			HashMap<Player, IslandMethods> playerData, CreateIslandMenu createIslandMenu) {
-		//Start fake plugin.yml
+
+	public IslandCommand(Common common, IslandManageMenu menus, HashMap<Player, IslandMethods> playerData,
+			CreateIslandMenu createIslandMenu) {
+		// Start fake plugin.yml
 		super("island");
 
 		setAliases(Arrays.asList("is"));
 		setDescription("Main command for skyblock");
 		setUsage("/island <subcommand>");
-		//END
-		//Passing classes part
+		// END
+		// Passing classes part
 		this.common = common;
 		this.menus = menus;
 		this.playerData = playerData;
 		this.createIslandMenu = createIslandMenu;
-		//END
+		// END
 	}
 
 	@Override
 	public void run(Player sender, String[] args) {
-		if (args.length==0) {
-			//TODO: Open menu
+		if (args.length == 0) {
+			// TODO: Open menu
 			sender.openInventory(menus.main());
 			if ((boolean) playerData.get(sender).getConfig().get("hasIsland")) {
 				sender.openInventory(menus.main());
-			} else sender.openInventory(createIslandMenu.createIsland());
-		} else
-			if (args.length==1) {
-				//Text menu for people who prefer typing
-				switch(args[0]) {
-				case "help":
-				case "info":
-					common.tell(sender, "&d--===[ &5&lWOSSkyblock &d]===--");
-					common.tell(sender, "&d- &5/is tp <name>");
-					common.tell(sender, "&d- &5/is warp [name]");
-					common.tell(sender, "&d- &5/is setbiome [biome]");
-					common.tell(sender, "&d- &5/is upgrade");
-					common.tell(sender, "&d--===[ &5&lWOSSkyblock &d]===--");
-					break;
-					
-				default:
-					common.tell(sender, common.getPrefix + "Unknown argument! Use the GUI instead!");
-				}
+			} else
+				sender.openInventory(createIslandMenu.createIsland());
+		} else if (args.length == 1) {
+			// Text menu for people who prefer typing
+			switch (args[0]) {
+			case "help":
+			case "info":
+				common.tell(sender, "&d--===[ &5&lSkyblock &d]===--");
+				common.tell(sender, "&d- &5/is tp <name>");
+				common.tell(sender, "&d- &5/is warp [name]");
+				common.tell(sender, "&d- &5/is setbiome [biome]");
+				common.tell(sender, "&d- &5/is upgrade");
+				common.tell(sender, "&d--===[ &5&lSkyblock &d]===--");
+				break;
 
+			default:
+				common.tell(sender, common.getPrefix + "Unknown argument! Use the GUI instead!");
 			}
+
+		}
 	}
 
 	@Override
@@ -81,7 +81,8 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 						}
 					}
 					return returnedList;
-				} else return fullList;
+				} else
+					return fullList;
 			}
 		}
 		return fullList;
