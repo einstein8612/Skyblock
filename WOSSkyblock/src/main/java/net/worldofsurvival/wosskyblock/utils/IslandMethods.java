@@ -3,7 +3,6 @@ package net.worldofsurvival.wosskyblock.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,8 +33,8 @@ public final class IslandMethods {
 
 	public void teleport(Player player) {
 		World skyblock = Bukkit.getWorld("Skyblocks");
-		Location location = new Location(skyblock, playerConfig.getInt("islandMiddle.X"),
-				playerConfig.getInt("islandMiddle.Y"), playerConfig.getInt("islandMiddle.Z"));
+		Location location = new Location(skyblock, playerConfig.getDouble("islandMiddle.X"),
+				playerConfig.getInt("islandMiddle.Y"), playerConfig.getDouble("islandMiddle.Z"));
 		if (!this.isSafe(location)) {
 			location.setY(skyblock.getHighestBlockYAt(location));
 			player.teleport(location);
@@ -45,8 +44,8 @@ public final class IslandMethods {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<UUID> getTeam() {
-		return (ArrayList<UUID>) playerConfig.get("teamMates");
+	public ArrayList<String> getTeam() {
+		return (ArrayList<String>) playerConfig.get("teamMates");
 	}
 
 	private boolean isSafe(Location location) {
