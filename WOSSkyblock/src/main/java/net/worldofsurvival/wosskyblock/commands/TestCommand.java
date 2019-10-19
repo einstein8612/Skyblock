@@ -1,6 +1,5 @@
 package net.worldofsurvival.wosskyblock.commands;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -8,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import net.worldofsurvival.wosskyblock.generators.IslandGenerator;
@@ -18,10 +16,10 @@ import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 public class TestCommand extends Command {
 
 	private DataManager dm;
-	private HashMap<Player, IslandMethods> playerData;
+	private HashMap<UUID, IslandMethods> playerData;
 	private IslandGenerator generator;
 
-	public TestCommand(DataManager dm, HashMap<Player, IslandMethods> playerData, IslandGenerator generator) {
+	public TestCommand(DataManager dm, HashMap<UUID, IslandMethods> playerData, IslandGenerator generator) {
 		super("test");
 
 		this.playerData = playerData;
@@ -49,6 +47,12 @@ public class TestCommand extends Command {
 			IslandMethods data = playerData.get(sender);
 			OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer(UUID.fromString((String) data.getConfig().get("teamLeader")));
 			sender.sendMessage(leaderPlayer.toString());
+
+		}
+		
+		if (args[0].equals("tp")) {
+			IslandMethods data = playerData.get(sender);
+			data.teleport((Player) sender);
 
 		}
 

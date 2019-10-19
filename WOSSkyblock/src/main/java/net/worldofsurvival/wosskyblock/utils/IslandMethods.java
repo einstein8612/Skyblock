@@ -27,7 +27,8 @@ public final class IslandMethods {
 		return playerConfig;
 	}
 
-	public void saveData(Player player) throws IOException {
+	public void saveData() throws IOException {
+		System.out.println("Saved data");
 		playerConfig.save(playerFile);
 	}
 

@@ -3,6 +3,7 @@ package net.worldofsurvival.wosskyblock;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,6 @@ import org.bukkit.WorldType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
@@ -43,51 +43,54 @@ public final class WOSSkyblock extends JavaPlugin {
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
 	private DataManager datam;
 	private FileConfiguration skyblocks;
-	private HashMap<Player, IslandMethods> playerData = new HashMap<Player, IslandMethods>();
+	private HashMap<UUID, IslandMethods> playerData = new HashMap<UUID, IslandMethods>();
 	private CreateIslandMenu createIslandMenu = new CreateIslandMenu(mainItems);
 	private IslandGenerator islandGenerator = new IslandGenerator();
-	
+
 	private static WOSSkyblock instance;
 
 	private Logger logger;
 
 	@Override
 	public void onEnable() {
-		
+
 		logger = getLogger();
 
 		instance = this;
-		
+
 		worldSetup();
 		setup();
 		registerOnlinePlayers();
-		this.registerCommands(new IslandCommand(common, mainSelectorMenu, playerData, createIslandMenu),
+		this.registerCommands(
+				new IslandCommand(common, mainSelectorMenu, playerData, createIslandMenu),
 				new TestCommand(datam, playerData, islandGenerator));
 
-		this.registerEvents(this, new BlockPlaceListener(common, playerData),
+		this.registerEvents(this, 
+				new BlockPlaceListener(common, playerData),
 				new BlockBreakListener(common, playerData),
-				new InventoryClickListener(common, createIslandMenu, mainSelectorMenu, skyblocks, playerData,
+				new InventoryClickListener(common, mainSelectorMenu, skyblocks, playerData,
 						islandGenerator),
 				new PlayerInteractListener(common, mainSelectorMenu, createIslandMenu, mainItems, playerData),
-				new PlayerDropListener(common, mainItems), new PlayerRespawnListener(mainItems),
+				new PlayerDropListener(common, mainItems), 
+				new PlayerRespawnListener(mainItems),
 				new PlayerJoinListener(datam, mainItems.menu(), playerData)
-		// TODO: Add listener for join to give players the menu item on first join
-		);
+				// TODO: Add listener for join to give players the menu item on first join
+				);
 	}
 
 	@Override
 	public void onDisable() {
-		
+
 		instance = null;
-		
-		for (Player player : playerData.keySet()) {
+
+		playerData.keySet().forEach(uuid -> {
 			try {
-				playerData.get(player).saveData(player);
+				playerData.get(uuid).saveData();
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Data saving has failed for: " + player.getName());
+				logger.log(Level.SEVERE, "Data saving has failed for: " + uuid);
 				e.printStackTrace();
 			}
-		}
+		});
 
 		logger.log(Level.INFO, "Saved playerdata.");
 
@@ -99,7 +102,7 @@ public final class WOSSkyblock extends JavaPlugin {
 	public static WOSSkyblock getInstance() {
 		return instance;
 	}
-	
+
 	private void worldSetup() {
 		if (getServer().getWorld("Skyblocks") == null) {
 			WorldCreator worldCreator = new WorldCreator("Skyblocks");
@@ -113,9 +116,9 @@ public final class WOSSkyblock extends JavaPlugin {
 
 	private void registerOnlinePlayers() {
 		if (!getServer().getOnlinePlayers().isEmpty()) {
-			for (Player player : getServer().getOnlinePlayers()) {
-				this.playerData.put(player, new IslandMethods(datam.getPlayerFile(player)));
-			}
+			getServer().getOnlinePlayers().forEach(player -> {
+				this.playerData.put(player.getUniqueId(), new IslandMethods(datam.getPlayerFile(player)));
+			});
 		}
 	}
 

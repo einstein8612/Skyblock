@@ -22,19 +22,17 @@ import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 
 public final class InventoryClickListener implements Listener {
 
-	private CreateIslandMenu createIslandMenu;
 	private IslandManageMenu islandManageMenu;
 	private IslandGenerator generator;
 	private FileConfiguration skyblocks;
-	private HashMap<Player, IslandMethods> playerData;
+	private HashMap<UUID, IslandMethods> playerData;
 	private Common common;
 
-	public InventoryClickListener(Common common, CreateIslandMenu createIslandMenu, IslandManageMenu islandManageMenu,
-			FileConfiguration skyblocks, HashMap<Player, IslandMethods> playerData, IslandGenerator generator) {
+	public InventoryClickListener(Common common, IslandManageMenu islandManageMenu,
+			FileConfiguration skyblocks, HashMap<UUID, IslandMethods> playerData, IslandGenerator generator) {
 		this.generator = generator;
 		this.common = common;
 		this.islandManageMenu = islandManageMenu;
-		this.createIslandMenu = createIslandMenu;
 		this.skyblocks = skyblocks;
 		this.playerData = playerData;
 	}
@@ -49,7 +47,7 @@ public final class InventoryClickListener implements Listener {
 		final Player player = (Player) event.getWhoClicked();
 		final String title = common.decolor(event.getView().getTitle());
 		final String item = common.decolor(event.getCurrentItem().getItemMeta().getDisplayName());
-		final IslandMethods island = playerData.get(player);
+		IslandMethods island = playerData.get(player.getUniqueId());
 
 		if (common.decolor(event.getCurrentItem().getItemMeta().getDisplayName()).equals("Back")) {
 			switch (common.decolor(event.getView().getTitle())) {
@@ -91,7 +89,7 @@ public final class InventoryClickListener implements Listener {
 				if (player.getUniqueId().toString().equals(island.getConfig().get("teamLeader"))) { //TODO: Add officer invite capability also add officers
 					player.openInventory(islandManageMenu.playerInvites(player));
 				} else common.tell(player, common.getPrefix + "Only the team leader may invite members!");
-				
+
 				break;
 			case "Players":
 				player.openInventory(islandManageMenu.players(island));
@@ -246,14 +244,14 @@ public final class InventoryClickListener implements Listener {
 		if (count == 1 && skyblocks.get("Skyblocks.0").equals("Don't remove this!"))
 			count = 0;
 
+		island.getConfig().set("hasIsland", true);
+
 		island.getConfig().set("islandMiddle.World", "Skyblocks");
 		island.getConfig().set("islandMiddle.X", (2000 * count) + 0.5);
 		island.getConfig().set("islandMiddle.Y", 135);
 		island.getConfig().set("islandMiddle.Z", (2000 * count) + 0.5);
-		
-		island.getConfig().set("teamLeader", player.getUniqueId().toString());
 
-		island.getConfig().set("hasIsland", true);
+		island.getConfig().set("teamLeader", player.getUniqueId().toString());
 
 		skyblocks.set("Skyblocks." + count, "Tested");
 	}
@@ -276,7 +274,7 @@ public final class InventoryClickListener implements Listener {
 		tIsland.getConfig().set("islandMiddle", sIsland.getConfig().get("islandMiddle"));
 		tIsland.getConfig().set("teamLeader", player.getUniqueId().toString());
 		tIsland.getConfig().set("hasIsland", true);
-		
+
 		sIsland.getConfig().set("teamMates", teamMatesString);
 	}
 }

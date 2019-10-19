@@ -1,6 +1,7 @@
 package net.worldofsurvival.wosskyblock.listeners;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,9 +15,9 @@ import net.worldofsurvival.wosskyblock.utils.IslandMethods;
 public final class BlockBreakListener implements Listener {
 
 	private Common common;
-	private HashMap<Player, IslandMethods> playerData;
+	private HashMap<UUID, IslandMethods> playerData;
 
-	public BlockBreakListener(Common common, HashMap<Player, IslandMethods> playerData) {
+	public BlockBreakListener(Common common, HashMap<UUID, IslandMethods> playerData) {
 		this.common = common;
 		this.playerData = playerData;
 	}
@@ -26,7 +27,7 @@ public final class BlockBreakListener implements Listener {
 		// TEMP
 		final Player player = event.getPlayer();
 		if (event.getBlock().getLocation().getWorld() == Bukkit.getWorld("Skyblocks")) {
-			IslandMethods island = playerData.get(event.getPlayer());
+			IslandMethods island = playerData.get(event.getPlayer().getUniqueId());
 			if (!event.getPlayer().hasPermission("wosskyblock.bypass")) {
 
 				final int x = event.getBlock().getX();

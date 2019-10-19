@@ -99,12 +99,4 @@ public final class DataManager {
 	public FileConfiguration config() {
 		return config;
 	}
-
-	public FileConfiguration getTest() {
-		File file = new File(plugin.getDataFolder(), "test.yml");
-		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-
-		return config;
-	}
-
 }

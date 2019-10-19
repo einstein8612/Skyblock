@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,10 +20,10 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 
 	private Common common;
 	private IslandManageMenu menus;
-	private HashMap<Player, IslandMethods> playerData;
+	private HashMap<UUID, IslandMethods> playerData;
 	private CreateIslandMenu createIslandMenu;
 
-	public IslandCommand(Common common, IslandManageMenu menus, HashMap<Player, IslandMethods> playerData,
+	public IslandCommand(Common common, IslandManageMenu menus, HashMap<UUID, IslandMethods> playerData,
 			CreateIslandMenu createIslandMenu) {
 		// Start fake plugin.yml
 		super("island");
@@ -44,7 +45,9 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 		if (args.length == 0) {
 			// TODO: Open menu
 			sender.openInventory(menus.main());
-			if ((boolean) playerData.get(sender).getConfig().get("hasIsland")) {
+			
+			IslandMethods data = playerData.get(sender.getUniqueId());
+			if ((boolean) data.getConfig().get("hasIsland")) {
 				sender.openInventory(menus.main());
 			} else
 				sender.openInventory(createIslandMenu.createIsland());
