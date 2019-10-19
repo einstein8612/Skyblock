@@ -88,7 +88,7 @@ public final class InventoryClickListener implements Listener {
 		case "Skyblock Menu":
 			switch (item) {
 			case "Invite Players":
-				if (player.getUniqueId().equals(island.getConfig().get("teamLeader"))) { //TODO: Add officer invite capability also add officers
+				if (player.getUniqueId().toString().equals(island.getConfig().get("teamLeader"))) { //TODO: Add officer invite capability also add officers
 					player.openInventory(islandManageMenu.playerInvites(player));
 				} else common.tell(player, common.getPrefix + "Only the team leader may invite members!");
 				
@@ -201,7 +201,6 @@ public final class InventoryClickListener implements Listener {
 				Location location = new Location(skyblock, island.getConfig().getInt("islandMiddle.X"), 128,
 						island.getConfig().getInt("islandMiddle.Z"));
 				generator.generateIsland(location, "classic");
-
 				player.closeInventory();
 				common.tell(player, common.getPrefix + "You've created a classic island!");
 				break;
@@ -248,11 +247,11 @@ public final class InventoryClickListener implements Listener {
 			count = 0;
 
 		island.getConfig().set("islandMiddle.World", "Skyblocks");
-		island.getConfig().set("islandMiddle.X", 2000 * count);
+		island.getConfig().set("islandMiddle.X", (2000 * count) + 0.5);
 		island.getConfig().set("islandMiddle.Y", 135);
-		island.getConfig().set("islandMiddle.Z", 2000 * count);
+		island.getConfig().set("islandMiddle.Z", (2000 * count) + 0.5);
 		
-		island.getConfig().set("teamLeader", player.getUniqueId());
+		island.getConfig().set("teamLeader", player.getUniqueId().toString());
 
 		island.getConfig().set("hasIsland", true);
 
@@ -264,18 +263,20 @@ public final class InventoryClickListener implements Listener {
 		IslandMethods sIsland = playerData.get(player);
 
 		@SuppressWarnings("unchecked")
-		ArrayList<UUID> teamMates = (ArrayList<UUID>) sIsland.getConfig().get("teamMates");
+		ArrayList<String> teamMatesString = (ArrayList<String>) sIsland.getConfig().get("teamMates");
 
-		if (teamMates.contains(target.getUniqueId())) {
+		if (teamMatesString.contains(target.getUniqueId().toString())) {
 			// TODO: Already in team
 			target.sendMessage("You've already joined this player's team!");
 			player.sendMessage("Already in team");
 			return;
 		}
-		teamMates.add(target.getUniqueId());
+		teamMatesString.add(target.getUniqueId().toString());
 
 		tIsland.getConfig().set("islandMiddle", sIsland.getConfig().get("islandMiddle"));
-		sIsland.getConfig().set("teamMates", teamMates);
-		tIsland.getConfig().set("teamLeader", player.getUniqueId());
+		tIsland.getConfig().set("teamLeader", player.getUniqueId().toString());
+		tIsland.getConfig().set("hasIsland", true);
+		
+		sIsland.getConfig().set("teamMates", teamMatesString);
 	}
 }

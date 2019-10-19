@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import net.md_5.bungee.api.ChatColor;
 import net.worldofsurvival.wosskyblock.items.MainItems;
@@ -194,14 +195,17 @@ public final class IslandManageMenu {
 		}
 
 		inv.setItem(53, mainItems.back());
-		OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer((UUID) data.getConfig().get("teamLeader"));
-		
-		ItemStack leader = mainItems.makeSkullItem("&5" + leaderPlayer.getName(), leaderPlayer);
+
+		final UUID leaderID = UUID.fromString((String) data.getConfig().get("teamLeader"));
+		final OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer(leaderID);
+
+		ItemStack leader = mainItems.makeSkullItem(ChatColor.DARK_PURPLE + leaderPlayer.getName(), leaderPlayer);
+
 		inv.addItem(leader);
-		
+
 		data.getTeam().forEach(id -> {
-			OfflinePlayer teamMate = Bukkit.getOfflinePlayer(id);
-			ItemStack itemstack = mainItems.makeSkullItem("&5" + teamMate.getName(), teamMate);
+			OfflinePlayer teamMate = Bukkit.getOfflinePlayer(UUID.fromString(id));
+			ItemStack itemstack = mainItems.makeSkullItem(ChatColor.LIGHT_PURPLE + teamMate.getName(), teamMate);
 
 			inv.addItem(itemstack);
 		});
