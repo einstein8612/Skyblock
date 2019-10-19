@@ -2,7 +2,10 @@ package net.worldofsurvival.wosskyblock.commands;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,17 +46,9 @@ public class TestCommand extends Command {
 		}
 
 		if (args[0].equals("testing")) {
-			IslandMethods sData = playerData.get(sender);
-			FileConfiguration conf = dm.getTest();
-
-			sData.getConfig().set("islandMiddle", conf.get("islandMiddle"));
-
-			try {
-				sData.saveData((Player) sender);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			IslandMethods data = playerData.get(sender);
+			OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer(UUID.fromString((String) data.getConfig().get("teamLeader")));
+			sender.sendMessage(leaderPlayer.toString());
 
 		}
 

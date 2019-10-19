@@ -53,6 +53,7 @@ public final class WOSSkyblock extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
 		logger = getLogger();
 
 		instance = this;
@@ -70,7 +71,7 @@ public final class WOSSkyblock extends JavaPlugin {
 				new PlayerInteractListener(common, mainSelectorMenu, createIslandMenu, mainItems, playerData),
 				new PlayerDropListener(common, mainItems), new PlayerRespawnListener(mainItems),
 				new PlayerJoinListener(datam, mainItems.menu(), playerData)
-		// TODO: Add listener for join to give players the menu item on firs join
+		// TODO: Add listener for join to give players the menu item on first join
 		);
 	}
 
