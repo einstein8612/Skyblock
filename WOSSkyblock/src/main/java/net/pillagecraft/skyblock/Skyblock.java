@@ -35,7 +35,7 @@ import net.pillagecraft.skyblock.utils.Common;
 import net.pillagecraft.skyblock.utils.DataManager;
 import net.pillagecraft.skyblock.utils.Island;
 
-public final class WOSSkyblock extends JavaPlugin {
+public final class Skyblock extends JavaPlugin {
 
 	private Common common = new Common();
 	private MainItems mainItems = new MainItems();
@@ -46,7 +46,7 @@ public final class WOSSkyblock extends JavaPlugin {
 	private CreateIslandMenu createIslandMenu = new CreateIslandMenu(mainItems);
 	private IslandGenerator islandGenerator = new IslandGenerator();
 
-	private static WOSSkyblock instance;
+	private static Skyblock instance;
 
 	private Logger logger;
 
@@ -96,7 +96,7 @@ public final class WOSSkyblock extends JavaPlugin {
 
 	}
 
-	public static WOSSkyblock getInstance() {
+	public static Skyblock getInstance() {
 		return instance;
 	}
 
@@ -126,7 +126,7 @@ public final class WOSSkyblock extends JavaPlugin {
 	}
 
 	// Registering events.
-	private void registerEvents(WOSSkyblock plugin, Listener... listeners) {
+	private void registerEvents(Skyblock plugin, Listener... listeners) {
 		final PluginManager pm = plugin.getServer().getPluginManager();
 
 		for (final Listener lis : listeners)

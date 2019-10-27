@@ -21,7 +21,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 
-import net.pillagecraft.skyblock.WOSSkyblock;
+import net.pillagecraft.skyblock.Skyblock;
 
 public final class IslandGenerator {
 	
@@ -41,7 +41,7 @@ public final class IslandGenerator {
 
 	public void generateIsland(final Location location, final String schemName) {
 		
-		File schematic = new File(WOSSkyblock.getInstance().getDataFolder(), "schematics/" + schemName + ".schem");
+		File schematic = new File(Skyblock.getInstance().getDataFolder(), "schematics/" + schemName + ".schem");
 
 		ClipboardFormat format = ClipboardFormats.findByFile(schematic);
 
