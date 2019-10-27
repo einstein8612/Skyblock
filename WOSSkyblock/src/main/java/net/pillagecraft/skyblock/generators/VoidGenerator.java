@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.generators;
+package net.pillagecraft.skyblock.generators;
 
 import java.util.Random;
 

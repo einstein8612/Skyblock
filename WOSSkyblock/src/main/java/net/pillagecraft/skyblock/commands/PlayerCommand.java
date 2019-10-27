@@ -1,10 +1,10 @@
-package net.worldofsurvival.wosskyblock.commands;
+package net.pillagecraft.skyblock.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.worldofsurvival.wosskyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.Common;
 
 public abstract class PlayerCommand extends Command {
 

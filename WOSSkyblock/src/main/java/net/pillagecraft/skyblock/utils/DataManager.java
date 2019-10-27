@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.utils;
+package net.pillagecraft.skyblock.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +59,8 @@ public final class DataManager {
 
 	}
 
-	public File getPlayerFile(Player player) {
-		File file = new File(plugin.getDataFolder(), "playerdata/" + player.getUniqueId().toString() + ".yml");
+	public File getPlayerFile(UUID uuid) {
+		File file = new File(plugin.getDataFolder(), "playerdata/" + uuid.toString() + ".yml");
 		return file;
 	}
 

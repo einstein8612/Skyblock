@@ -1,10 +1,10 @@
-package net.worldofsurvival.wosskyblock.listeners;
+package net.pillagecraft.skyblock.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import net.worldofsurvival.wosskyblock.items.MainItems;
+import net.pillagecraft.skyblock.items.MainItems;
 
 public class PlayerRespawnListener implements Listener {
 

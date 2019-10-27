@@ -1,11 +1,11 @@
-package net.worldofsurvival.wosskyblock.menus;
+package net.pillagecraft.skyblock.menus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import net.md_5.bungee.api.ChatColor;
-import net.worldofsurvival.wosskyblock.items.MainItems;
+import net.pillagecraft.skyblock.items.MainItems;
 
 public final class CreateIslandMenu {
 

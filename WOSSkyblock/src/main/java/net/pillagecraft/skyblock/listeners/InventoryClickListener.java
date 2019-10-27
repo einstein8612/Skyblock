@@ -1,40 +1,47 @@
-package net.worldofsurvival.wosskyblock.listeners;
+package net.pillagecraft.skyblock.listeners;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.meta.SkullMeta;
 
-import net.worldofsurvival.wosskyblock.generators.IslandGenerator;
-import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
-import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
-import net.worldofsurvival.wosskyblock.utils.Common;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.generators.IslandGenerator;
+import net.pillagecraft.skyblock.menus.IslandManageMenu;
+import net.pillagecraft.skyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.DataManager;
+import net.pillagecraft.skyblock.utils.Island;
 
 public final class InventoryClickListener implements Listener {
 
 	private IslandManageMenu islandManageMenu;
 	private IslandGenerator generator;
 	private FileConfiguration skyblocks;
-	private HashMap<UUID, IslandMethods> playerData;
+	private HashMap<UUID, Island> playerData;
 	private Common common;
+	private DataManager dm;
 
-	public InventoryClickListener(Common common, IslandManageMenu islandManageMenu,
-			FileConfiguration skyblocks, HashMap<UUID, IslandMethods> playerData, IslandGenerator generator) {
+	public InventoryClickListener(Common common, IslandManageMenu islandManageMenu, FileConfiguration skyblocks,
+			HashMap<UUID, Island> playerData, IslandGenerator generator, DataManager dm) {
 		this.generator = generator;
 		this.common = common;
 		this.islandManageMenu = islandManageMenu;
 		this.skyblocks = skyblocks;
 		this.playerData = playerData;
+		this.dm = dm;
 	}
 
 	@EventHandler
@@ -47,7 +54,7 @@ public final class InventoryClickListener implements Listener {
 		final Player player = (Player) event.getWhoClicked();
 		final String title = common.decolor(event.getView().getTitle());
 		final String item = common.decolor(event.getCurrentItem().getItemMeta().getDisplayName());
-		IslandMethods island = playerData.get(player.getUniqueId());
+		Island island = playerData.get(player.getUniqueId());
 
 		if (common.decolor(event.getCurrentItem().getItemMeta().getDisplayName()).equals("Back")) {
 			switch (common.decolor(event.getView().getTitle())) {
@@ -70,12 +77,12 @@ public final class InventoryClickListener implements Listener {
 			final String name = title.substring(12);
 
 			if (item.equals("Accept")) {
-				for (Player sender : Bukkit.getOnlinePlayers()) {
+				Bukkit.getOnlinePlayers().forEach(sender -> {
 					if (sender.getName().equals(name)) {
 						this.addPlayer(sender, player);
 						player.closeInventory();
 					}
-				}
+				});
 			}
 			if (item.equals("Deny"))
 				player.closeInventory();
@@ -86,9 +93,12 @@ public final class InventoryClickListener implements Listener {
 		case "Skyblock Menu":
 			switch (item) {
 			case "Invite Players":
-				if (player.getUniqueId().toString().equals(island.getConfig().get("teamLeader"))) { //TODO: Add officer invite capability also add officers
+				if (player.getUniqueId().toString().equals(island.getConfig().get("teamLeader"))) { // TODO: Add officer
+																									// invite capability
+																									// also add officers
 					player.openInventory(islandManageMenu.playerInvites(player));
-				} else common.tell(player, common.getPrefix + "Only the team leader may invite members!");
+				} else
+					common.tell(player, common.getPrefix + "Only the team leader may invite members!");
 
 				break;
 			case "Players":
@@ -214,26 +224,81 @@ public final class InventoryClickListener implements Listener {
 				break;
 			}
 		case "Invite Players":
-			switch (item) {
-			case " ":
-				break;
-			default:
-				Bukkit.getOnlinePlayers().forEach(all -> {
-					if (all.getName().equals(item)) {
-						player.closeInventory();
-						all.openInventory(islandManageMenu.invited(player));
-						return;
-					}
-				});
-				// TODO: message
-				break;
-			}
+			Bukkit.getOnlinePlayers().forEach(all -> {
+				if (all.getName().equals(item)) {
+					player.closeInventory();
+					all.openInventory(islandManageMenu.invited(player));
+					return;
+				}
+			});
 			break;
+		case "Players":
+			OfflinePlayer target = ((SkullMeta) event.getCurrentItem().getItemMeta()).getOwningPlayer();
+			UUID targetUUID = target.getUniqueId();
+			if (island.getLeader().getUniqueId().equals(player.getUniqueId())) {
+
+				ArrayList<String> newLeaderTeam = island.getTeam();
+				newLeaderTeam.remove(targetUUID.toString());
+
+				island.setTeam(newLeaderTeam);
+
+				common.tell(player, ChatColor.DARK_PURPLE + target.getName() + "&d has been kicked from your island!");
+
+				island.getTeam().forEach(idString -> {
+					UUID otherUUID = UUID.fromString(idString);
+					File playerFile = dm.getPlayerFile(otherUUID);
+					Island otherIsland;
+
+					if (!playerData.containsKey(otherUUID)) {
+						otherIsland = new Island(playerFile);
+					} else {
+						otherIsland = playerData.get(otherUUID);
+						common.tell(Bukkit.getPlayer(otherUUID),
+								ChatColor.DARK_PURPLE + target.getName() + "&d has been kicked from your island!");
+					}
+
+					ArrayList<String> newTeam = otherIsland.getTeam();
+					newTeam.remove(targetUUID.toString());
+
+					otherIsland.setTeam(newTeam);
+
+					if (!playerData.containsKey(otherUUID)) {
+						otherIsland.saveData();
+					}
+
+				});
+
+				Island targetIsland;
+
+				if (target.getPlayer() != null) {
+					common.tell(target.getPlayer(),
+							"&dYou've been kicked from &5" + player.getDisplayName() + "&d's island!");
+					targetIsland = playerData.get(targetUUID);
+				} else {
+					targetIsland = new Island(dm.getPlayerFile(targetUUID));
+				}
+
+				targetIsland.getConfig().set("teamLeader", "");
+				targetIsland.getConfig().set("teamMates", new ArrayList<String>());
+				targetIsland.getConfig().set("hasIsland", false);
+				targetIsland.getConfig().set("islandMiddle", "");
+
+				if (target.getPlayer() == null) {
+					targetIsland.saveData();
+				}
+
+			} else {
+				player.closeInventory();
+				common.tell(player, "&cOnly the leader can kick players!");
+			}
+
+			break;
+
 		}
 
 	}
 
-	private void createIslandInfo(Player player, IslandMethods island, FileConfiguration skyblocks) {
+	private void createIslandInfo(Player player, Island island, FileConfiguration skyblocks) {
 
 		if (skyblocks.getConfigurationSection("Skyblocks") == null) {
 			skyblocks.createSection("Skyblocks");
@@ -248,7 +313,7 @@ public final class InventoryClickListener implements Listener {
 
 		island.getConfig().set("islandMiddle.World", "Skyblocks");
 		island.getConfig().set("islandMiddle.X", (2000 * count) + 0.5);
-		island.getConfig().set("islandMiddle.Y", 135);
+		island.getConfig().set("islandMiddle.Y", 128);
 		island.getConfig().set("islandMiddle.Z", (2000 * count) + 0.5);
 
 		island.getConfig().set("teamLeader", player.getUniqueId().toString());
@@ -257,8 +322,8 @@ public final class InventoryClickListener implements Listener {
 	}
 
 	private void addPlayer(Player player, Player target) {
-		IslandMethods tIsland = playerData.get(target);
-		IslandMethods sIsland = playerData.get(player);
+		Island tIsland = playerData.get(target.getUniqueId());
+		Island sIsland = playerData.get(player.getUniqueId());
 
 		@SuppressWarnings("unchecked")
 		ArrayList<String> teamMatesString = (ArrayList<String>) sIsland.getConfig().get("teamMates");
@@ -276,5 +341,16 @@ public final class InventoryClickListener implements Listener {
 		tIsland.getConfig().set("hasIsland", true);
 
 		sIsland.getConfig().set("teamMates", teamMatesString);
+
+		teamMatesString.forEach(pName -> {
+			UUID teamMate = UUID.fromString(pName);
+			if (Bukkit.getPlayer(teamMate) == null) {
+				File configFile = dm.getPlayerFile(teamMate);
+				FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+				config.set("teamMates", teamMatesString);
+			} else {
+				playerData.get(teamMate).getConfig().set("teamMates", teamMatesString);
+			}
+		});
 	}
 }

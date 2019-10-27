@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.menus;
+package net.pillagecraft.skyblock.menus;
 
 import java.util.UUID;
 
@@ -8,11 +8,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import net.md_5.bungee.api.ChatColor;
-import net.worldofsurvival.wosskyblock.items.MainItems;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.items.MainItems;
+import net.pillagecraft.skyblock.utils.Island;
 
 public final class IslandManageMenu {
 
@@ -151,7 +150,7 @@ public final class IslandManageMenu {
 		Bukkit.getOnlinePlayers().forEach(all -> {
 			if (!all.equals(player)) {
 				String displayName = ChatColor.DARK_PURPLE + all.getName();
-				inv.addItem(mainItems.makeSkullItem(displayName, all));
+				inv.addItem(mainItems.makeSkullItem(displayName, all, "invite"));
 			}
 		});
 		return inv;
@@ -173,7 +172,7 @@ public final class IslandManageMenu {
 		return inv;
 	}
 
-	public Inventory players(IslandMethods data) {
+	public Inventory players(Island data) {
 		Inventory inv = Bukkit.createInventory(null, 54,
 				ChatColor.translateAlternateColorCodes('&', "&c&l&f&3&5&2&r&5&lPlayers"));
 
@@ -199,13 +198,13 @@ public final class IslandManageMenu {
 		final UUID leaderID = UUID.fromString((String) data.getConfig().get("teamLeader"));
 		final OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer(leaderID);
 
-		ItemStack leader = mainItems.makeSkullItem(ChatColor.DARK_PURPLE + leaderPlayer.getName(), leaderPlayer);
+		ItemStack leader = mainItems.makeSkullItem(ChatColor.DARK_PURPLE + leaderPlayer.getName() + " (Leader)", leaderPlayer, null);
 
 		inv.addItem(leader);
 
 		data.getTeam().forEach(id -> {
 			OfflinePlayer teamMate = Bukkit.getOfflinePlayer(UUID.fromString(id));
-			ItemStack itemstack = mainItems.makeSkullItem(ChatColor.LIGHT_PURPLE + teamMate.getName(), teamMate);
+			ItemStack itemstack = mainItems.makeSkullItem(ChatColor.LIGHT_PURPLE + teamMate.getName(), teamMate, "kick");
 
 			inv.addItem(itemstack);
 		});

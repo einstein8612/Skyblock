@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.commands;
+package net.pillagecraft.skyblock.commands;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -9,17 +9,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.worldofsurvival.wosskyblock.generators.IslandGenerator;
-import net.worldofsurvival.wosskyblock.utils.DataManager;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.generators.IslandGenerator;
+import net.pillagecraft.skyblock.utils.DataManager;
+import net.pillagecraft.skyblock.utils.Island;
 
 public class TestCommand extends Command {
 
 	private DataManager dm;
-	private HashMap<UUID, IslandMethods> playerData;
+	private HashMap<UUID, Island> playerData;
 	private IslandGenerator generator;
 
-	public TestCommand(DataManager dm, HashMap<UUID, IslandMethods> playerData, IslandGenerator generator) {
+	public TestCommand(DataManager dm, HashMap<UUID, Island> playerData, IslandGenerator generator) {
 		super("test");
 
 		this.playerData = playerData;
@@ -40,18 +40,20 @@ public class TestCommand extends Command {
 			Player player = (Player) sender;
 			dm.createPlayerData(player);
 			player.sendMessage("Reset playerdata for yourself");
+			playerData.put(player.getUniqueId(), new Island(dm.getPlayerFile(player.getUniqueId())));
+			
 			return true;
 		}
 
 		if (args[0].equals("testing")) {
-			IslandMethods data = playerData.get(sender);
+			Island data = playerData.get(sender);
 			OfflinePlayer leaderPlayer = Bukkit.getOfflinePlayer(UUID.fromString((String) data.getConfig().get("teamLeader")));
 			sender.sendMessage(leaderPlayer.toString());
 
 		}
 		
 		if (args[0].equals("tp")) {
-			IslandMethods data = playerData.get(sender);
+			Island data = playerData.get(sender);
 			data.teleport((Player) sender);
 
 		}

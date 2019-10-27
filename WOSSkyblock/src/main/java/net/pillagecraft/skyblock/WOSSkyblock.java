@@ -1,6 +1,5 @@
-package net.worldofsurvival.wosskyblock;
+package net.pillagecraft.skyblock;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.UUID;
@@ -18,23 +17,23 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.worldofsurvival.wosskyblock.commands.IslandCommand;
-import net.worldofsurvival.wosskyblock.commands.TestCommand;
-import net.worldofsurvival.wosskyblock.generators.IslandGenerator;
-import net.worldofsurvival.wosskyblock.generators.VoidGenerator;
-import net.worldofsurvival.wosskyblock.items.MainItems;
-import net.worldofsurvival.wosskyblock.listeners.BlockBreakListener;
-import net.worldofsurvival.wosskyblock.listeners.BlockPlaceListener;
-import net.worldofsurvival.wosskyblock.listeners.InventoryClickListener;
-import net.worldofsurvival.wosskyblock.listeners.PlayerDropListener;
-import net.worldofsurvival.wosskyblock.listeners.PlayerInteractListener;
-import net.worldofsurvival.wosskyblock.listeners.PlayerJoinListener;
-import net.worldofsurvival.wosskyblock.listeners.PlayerRespawnListener;
-import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
-import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
-import net.worldofsurvival.wosskyblock.utils.Common;
-import net.worldofsurvival.wosskyblock.utils.DataManager;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.commands.IslandCommand;
+import net.pillagecraft.skyblock.commands.TestCommand;
+import net.pillagecraft.skyblock.generators.IslandGenerator;
+import net.pillagecraft.skyblock.generators.VoidGenerator;
+import net.pillagecraft.skyblock.items.MainItems;
+import net.pillagecraft.skyblock.listeners.BlockBreakListener;
+import net.pillagecraft.skyblock.listeners.BlockPlaceListener;
+import net.pillagecraft.skyblock.listeners.InventoryClickListener;
+import net.pillagecraft.skyblock.listeners.PlayerDropListener;
+import net.pillagecraft.skyblock.listeners.PlayerInteractListener;
+import net.pillagecraft.skyblock.listeners.PlayerJoinListener;
+import net.pillagecraft.skyblock.listeners.PlayerRespawnListener;
+import net.pillagecraft.skyblock.menus.CreateIslandMenu;
+import net.pillagecraft.skyblock.menus.IslandManageMenu;
+import net.pillagecraft.skyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.DataManager;
+import net.pillagecraft.skyblock.utils.Island;
 
 public final class WOSSkyblock extends JavaPlugin {
 
@@ -43,7 +42,7 @@ public final class WOSSkyblock extends JavaPlugin {
 	private IslandManageMenu mainSelectorMenu = new IslandManageMenu(mainItems);
 	private DataManager datam;
 	private FileConfiguration skyblocks;
-	private HashMap<UUID, IslandMethods> playerData = new HashMap<UUID, IslandMethods>();
+	private HashMap<UUID, Island> playerData = new HashMap<UUID, Island>();
 	private CreateIslandMenu createIslandMenu = new CreateIslandMenu(mainItems);
 	private IslandGenerator islandGenerator = new IslandGenerator();
 
@@ -69,7 +68,7 @@ public final class WOSSkyblock extends JavaPlugin {
 				new BlockPlaceListener(common, playerData),
 				new BlockBreakListener(common, playerData),
 				new InventoryClickListener(common, mainSelectorMenu, skyblocks, playerData,
-						islandGenerator),
+						islandGenerator, datam),
 				new PlayerInteractListener(common, mainSelectorMenu, createIslandMenu, mainItems, playerData),
 				new PlayerDropListener(common, mainItems), 
 				new PlayerRespawnListener(mainItems),
@@ -82,14 +81,12 @@ public final class WOSSkyblock extends JavaPlugin {
 	public void onDisable() {
 
 		instance = null;
-
+		
+		WorldCreator world = new WorldCreator("test");
+		world.createWorld();
+		
 		playerData.keySet().forEach(uuid -> {
-			try {
 				playerData.get(uuid).saveData();
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, "Data saving has failed for: " + uuid);
-				e.printStackTrace();
-			}
 		});
 
 		logger.log(Level.INFO, "Saved playerdata.");
@@ -117,7 +114,7 @@ public final class WOSSkyblock extends JavaPlugin {
 	private void registerOnlinePlayers() {
 		if (!getServer().getOnlinePlayers().isEmpty()) {
 			getServer().getOnlinePlayers().forEach(player -> {
-				this.playerData.put(player.getUniqueId(), new IslandMethods(datam.getPlayerFile(player)));
+				this.playerData.put(player.getUniqueId(), new Island(datam.getPlayerFile(player.getUniqueId())));
 			});
 		}
 	}

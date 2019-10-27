@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.generators;
+package net.pillagecraft.skyblock.generators;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,10 +21,10 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 
-import net.worldofsurvival.wosskyblock.WOSSkyblock;
+import net.pillagecraft.skyblock.WOSSkyblock;
 
 public final class IslandGenerator {
-
+	
 	public IslandGenerator() {
 		// TODO: empty
 	}
@@ -54,7 +54,6 @@ public final class IslandGenerator {
 			try {
 				Operations.complete(operation);
 			} catch (WorldEditException e) {
-				
 				e.printStackTrace();
 			}
 			editSession.flushSession();
@@ -62,9 +61,5 @@ public final class IslandGenerator {
 			
 			e1.printStackTrace();
 		}
-
-
-
-
 	}
 }

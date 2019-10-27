@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.commands;
+package net.pillagecraft.skyblock.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,19 +11,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
-import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
-import net.worldofsurvival.wosskyblock.utils.Common;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.menus.CreateIslandMenu;
+import net.pillagecraft.skyblock.menus.IslandManageMenu;
+import net.pillagecraft.skyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.Island;
 
 public final class IslandCommand extends PlayerCommand implements TabCompleter {
 
 	private Common common;
 	private IslandManageMenu menus;
-	private HashMap<UUID, IslandMethods> playerData;
+	private HashMap<UUID, Island> playerData;
 	private CreateIslandMenu createIslandMenu;
 
-	public IslandCommand(Common common, IslandManageMenu menus, HashMap<UUID, IslandMethods> playerData,
+	public IslandCommand(Common common, IslandManageMenu menus, HashMap<UUID, Island> playerData,
 			CreateIslandMenu createIslandMenu) {
 		// Start fake plugin.yml
 		super("island");
@@ -46,7 +46,8 @@ public final class IslandCommand extends PlayerCommand implements TabCompleter {
 			// TODO: Open menu
 			sender.openInventory(menus.main());
 			
-			IslandMethods data = playerData.get(sender.getUniqueId());
+			Island data = playerData.get(sender.getUniqueId());
+			
 			if ((boolean) data.getConfig().get("hasIsland")) {
 				sender.openInventory(menus.main());
 			} else

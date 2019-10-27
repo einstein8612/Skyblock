@@ -1,11 +1,11 @@
-package net.worldofsurvival.wosskyblock.listeners;
+package net.pillagecraft.skyblock.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import net.worldofsurvival.wosskyblock.items.MainItems;
-import net.worldofsurvival.wosskyblock.utils.Common;
+import net.pillagecraft.skyblock.items.MainItems;
+import net.pillagecraft.skyblock.utils.Common;
 
 public class PlayerDropListener implements Listener {
 

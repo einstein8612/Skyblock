@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.listeners;
+package net.pillagecraft.skyblock.listeners;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -8,11 +8,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import net.worldofsurvival.wosskyblock.items.MainItems;
-import net.worldofsurvival.wosskyblock.menus.CreateIslandMenu;
-import net.worldofsurvival.wosskyblock.menus.IslandManageMenu;
-import net.worldofsurvival.wosskyblock.utils.Common;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.items.MainItems;
+import net.pillagecraft.skyblock.menus.CreateIslandMenu;
+import net.pillagecraft.skyblock.menus.IslandManageMenu;
+import net.pillagecraft.skyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.Island;
 
 public final class PlayerInteractListener implements Listener {
 
@@ -20,10 +20,10 @@ public final class PlayerInteractListener implements Listener {
 	private Common common;
 	private IslandManageMenu menus;
 	private MainItems items;
-	private HashMap<UUID, IslandMethods> playerData;
+	private HashMap<UUID, Island> playerData;
 
 	public PlayerInteractListener(Common common, IslandManageMenu menu, CreateIslandMenu createIslandMenu,
-			MainItems items, HashMap<UUID, IslandMethods> playerData) {
+			MainItems items, HashMap<UUID, Island> playerData) {
 		this.playerData = playerData;
 		this.common = common;
 		this.menus = menu;

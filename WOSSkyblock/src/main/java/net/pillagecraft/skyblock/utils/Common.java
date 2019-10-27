@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.utils;
+package net.pillagecraft.skyblock.utils;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

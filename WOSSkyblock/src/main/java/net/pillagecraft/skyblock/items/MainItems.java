@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.items;
+package net.pillagecraft.skyblock.items;
 
 import java.util.ArrayList;
 
@@ -11,41 +11,43 @@ import org.bukkit.inventory.meta.SkullMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public final class MainItems {
-	
-	private ArrayList<String> clickToUse(){
+
+	private ArrayList<String> clickToUse() {
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("");
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to use me)"));
 		return lore;
 	}
-	
-	private ArrayList<String> clickToTeleport(){
+
+	private ArrayList<String> clickToTeleport() {
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("");
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to teleport)"));
 		return lore;
 	}
-	
-	private ArrayList<String> clickToEmpty(String string){
+
+	private ArrayList<String> clickToEmpty(String string) {
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("");
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&7&l(Click to " + string + ")"));
 		return lore;
 	}
-	
-	public ItemStack makeSkullItem(String name, OfflinePlayer teamMate) {
-		
+
+	public ItemStack makeSkullItem(String name, OfflinePlayer teamMate, String clickTo) {
+
 		ItemStack stack = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) stack.getItemMeta();
-        meta.setOwningPlayer(teamMate);
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-        meta.setLore(this.clickToEmpty("invite"));
-        stack.setItemMeta(meta);
-        
-        return stack;
-        
+		SkullMeta meta = (SkullMeta) stack.getItemMeta();
+		meta.setOwningPlayer(teamMate);
+		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+		if (clickTo != null) {
+			meta.setLore(this.clickToEmpty(clickTo));
+		}
+		stack.setItemMeta(meta);
+
+		return stack;
+
 	}
-	
+
 	public ItemStack makeClickMeItem(Material mat, String name) {
 		ItemStack itemstack = new ItemStack(mat);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -54,7 +56,7 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
+
 	public ItemStack makeTeleportItem(Material mat, String name) {
 		ItemStack itemstack = new ItemStack(mat);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -63,7 +65,7 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
+
 	public ItemStack blackPane() {
 		ItemStack itemstack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -80,8 +82,8 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
-	//Menu items
+
+	// Menu items
 	public ItemStack home() {
 		ItemStack itemstack = new ItemStack(Material.RED_BED);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -90,7 +92,7 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
+
 	public ItemStack warps() {
 		ItemStack itemstack = new ItemStack(Material.NETHER_STAR);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -99,9 +101,9 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
-	//Menu items end
-	
+
+	// Menu items end
+
 	public ItemStack menu() {
 		ItemStack itemstack = new ItemStack(Material.EMERALD);
 		ItemMeta meta = itemstack.getItemMeta();
@@ -110,7 +112,7 @@ public final class MainItems {
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
-	
+
 	/*
 	 * private ArrayList<String> colorizeList (List<String> list) {
 	 * ArrayList<String> finalLore = new ArrayList<String>(); for (String str :

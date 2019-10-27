@@ -1,4 +1,4 @@
-package net.worldofsurvival.wosskyblock.listeners;
+package net.pillagecraft.skyblock.listeners;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -7,27 +7,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
-import net.worldofsurvival.wosskyblock.utils.Common;
-import net.worldofsurvival.wosskyblock.utils.IslandMethods;
+import net.pillagecraft.skyblock.utils.Common;
+import net.pillagecraft.skyblock.utils.Island;
 
-public final class BlockBreakListener implements Listener {
+public final class BlockPlaceListener implements Listener {
 
 	private Common common;
-	private HashMap<UUID, IslandMethods> playerData;
+	private HashMap<UUID, Island> playerData;
 
-	public BlockBreakListener(Common common, HashMap<UUID, IslandMethods> playerData) {
+	public BlockPlaceListener(Common common, HashMap<UUID, Island> playerData) {
 		this.common = common;
 		this.playerData = playerData;
 	}
 
 	@EventHandler
-	public void onBreak(BlockBreakEvent event) {
-		// TEMP
+	public void onPlace(BlockPlaceEvent event) {
 		final Player player = event.getPlayer();
 		if (event.getBlock().getLocation().getWorld() == Bukkit.getWorld("Skyblocks")) {
-			IslandMethods island = playerData.get(event.getPlayer().getUniqueId());
+			Island island = playerData.get(event.getPlayer().getUniqueId());
 			if (!event.getPlayer().hasPermission("wosskyblock.bypass")) {
 
 				final int x = event.getBlock().getX();
@@ -45,4 +44,5 @@ public final class BlockBreakListener implements Listener {
 			}
 		}
 	}
+
 }
