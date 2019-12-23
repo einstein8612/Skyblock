@@ -1,7 +1,7 @@
-name: WOSSkyblock
+name: Skyblock
 api-version: 1.13
 version: 1.0.0
-description: Skyblock plugin for WOS
+description: Skyblock plugin for PC
 author: Einstein
 
-main: net.worldofsurvival.wosskyblock.WOSSkyblock
+main: net.pillagecraft.skyblock.Skyblock
